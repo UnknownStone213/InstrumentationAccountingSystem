@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using InstrumentationAccountingSystem;
 using InstrumentationAccountingSystem.Models;
+using InstrumentationAccountingSystem.Mapper;
+using InstrumentationAccountingSystem.BusinessLogic.Interfaces;
+using InstrumentationAccountingSystem.BusinessLogic.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
