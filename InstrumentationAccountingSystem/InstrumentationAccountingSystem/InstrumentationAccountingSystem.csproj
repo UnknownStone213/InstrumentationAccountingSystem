@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InstrumentationAccountingSystem.BusinessLogic\InstrumentationAccountingSystem.BusinessLogic.csproj" />
+    <ProjectReference Include="..\InstrumentationAccountingSystem.Mapper\InstrumentationAccountingSystem.Mapper.csproj" />
     <ProjectReference Include="..\InstrumentationAccountingSystem.Models\InstrumentationAccountingSystem.Models.csproj" />
   </ItemGroup>
 

@@ -6,9 +6,25 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem", "InstrumentationAccountingSystem\InstrumentationAccountingSystem.csproj", "{36F9C71B-3ED6-4653-B0CD-EB6913BF3D40}"
 	ProjectSection(ProjectDependencies) = postProject
 		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE} = {14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}
+		{583048DF-AA9A-472C-8E80-C14D1D1CBD53} = {583048DF-AA9A-472C-8E80-C14D1D1CBD53}
+		{5E0DC4D0-52FF-4328-AA51-FB46F506586B} = {5E0DC4D0-52FF-4328-AA51-FB46F506586B}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem.Models", "InstrumentationAccountingSystem.Models\InstrumentationAccountingSystem.Models.csproj", "{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem.BusinessLogic", "InstrumentationAccountingSystem.BusinessLogic\InstrumentationAccountingSystem.BusinessLogic.csproj", "{583048DF-AA9A-472C-8E80-C14D1D1CBD53}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE} = {14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}
+		{7986C22E-D922-4C39-80CB-AAAA869CC5B3} = {7986C22E-D922-4C39-80CB-AAAA869CC5B3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem.Common", "InstrumentationAccountingSystem.Common\InstrumentationAccountingSystem.Common.csproj", "{7986C22E-D922-4C39-80CB-AAAA869CC5B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem.Mapper", "InstrumentationAccountingSystem.Mapper\InstrumentationAccountingSystem.Mapper.csproj", "{5E0DC4D0-52FF-4328-AA51-FB46F506586B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE} = {14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}
+		{7986C22E-D922-4C39-80CB-AAAA869CC5B3} = {7986C22E-D922-4C39-80CB-AAAA869CC5B3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +40,18 @@ Global
 		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{583048DF-AA9A-472C-8E80-C14D1D1CBD53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583048DF-AA9A-472C-8E80-C14D1D1CBD53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583048DF-AA9A-472C-8E80-C14D1D1CBD53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583048DF-AA9A-472C-8E80-C14D1D1CBD53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7986C22E-D922-4C39-80CB-AAAA869CC5B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7986C22E-D922-4C39-80CB-AAAA869CC5B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7986C22E-D922-4C39-80CB-AAAA869CC5B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7986C22E-D922-4C39-80CB-AAAA869CC5B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E0DC4D0-52FF-4328-AA51-FB46F506586B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E0DC4D0-52FF-4328-AA51-FB46F506586B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E0DC4D0-52FF-4328-AA51-FB46F506586B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E0DC4D0-52FF-4328-AA51-FB46F506586B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
