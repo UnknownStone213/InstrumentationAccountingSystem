@@ -1,4 +1,14 @@
-﻿
+﻿@model InstrumentationAccountingSystem.Models.HomeModel
+
+@if (Model.User != null)
+{
+    <h2>Logged in as: @Model.User.Email, @Model.User.Role</h2>
+}
+else
+{
+    <h2>Not logged in.</h2>
+}
+<p><a asp-action="CreateNote">Create note</a></p>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>

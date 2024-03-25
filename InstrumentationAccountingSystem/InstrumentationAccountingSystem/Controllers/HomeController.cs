@@ -27,18 +27,18 @@ namespace InstrumentationAccountingSystem.Controllers
 
         public IActionResult Index()
         {
-            //IEnumerable<Note> notes = new List<Note> { };
+            IEnumerable<Instrumentation> Instrumentations = new List<Instrumentation> { };
             User? user = null;
 
-            int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+            //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth
+
+            //Auth!!!!
+            //Instrumentations = _noteService.GetNotes
 
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
