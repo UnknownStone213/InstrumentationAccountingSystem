@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem", "InstrumentationAccountingSystem\InstrumentationAccountingSystem.csproj", "{36F9C71B-3ED6-4653-B0CD-EB6913BF3D40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE} = {14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstrumentationAccountingSystem.Models", "InstrumentationAccountingSystem.Models\InstrumentationAccountingSystem.Models.csproj", "{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36F9C71B-3ED6-4653-B0CD-EB6913BF3D40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36F9C71B-3ED6-4653-B0CD-EB6913BF3D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36F9C71B-3ED6-4653-B0CD-EB6913BF3D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36F9C71B-3ED6-4653-B0CD-EB6913BF3D40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14AEEC71-67E3-4D48-9AA7-4A5D6AF888FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CDCCBB3-D6B0-46C8-993E-A2F8E02C48EF}
+	EndGlobalSection
+EndGlobal
