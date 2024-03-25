@@ -5,10 +5,8 @@ using InstrumentationAccountingSystem.Mapper;
 using InstrumentationAccountingSystem.BusinessLogic.Interfaces;
 using InstrumentationAccountingSystem.BusinessLogic.Services;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 //using Microsoft.AspNetCore.Authentication.Cookies;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
