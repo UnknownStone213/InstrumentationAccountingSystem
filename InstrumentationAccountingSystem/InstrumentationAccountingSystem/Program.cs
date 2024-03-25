@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using InstrumentationAccountingSystem;
+using InstrumentationAccountingSystem.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
+string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -18,6 +25,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
