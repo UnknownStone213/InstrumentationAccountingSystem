@@ -28,5 +28,12 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Services
             _applicationContext.Types.Add(type);
             _applicationContext.SaveChanges();
         }
+
+        public List<InstrumentationAccountingSystem.Models.Type> GetAll()
+        {
+            var types = _applicationContext.Types.ToList();
+
+            return types;
+        }
     }
 }

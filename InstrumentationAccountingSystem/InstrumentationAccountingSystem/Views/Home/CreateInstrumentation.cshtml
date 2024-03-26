@@ -1,0 +1,73 @@
+﻿@using InstrumentationAccountingSystem.BusinessLogic.Interfaces
+@using InstrumentationAccountingSystem.BusinessLogic.Services
+@using InstrumentationAccountingSystem.Models
+
+@model InstrumentationAccountingSystem.Models.Instrumentation
+@inject ITypeService TypeService
+@inject ILocationService LocationService
+
+@{
+    List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
+    foreach (var item in @TypeService.GetAll())
+    {
+        types.Add(item);
+    }
+    List<InstrumentationAccountingSystem.Models.Location> locations = new List<InstrumentationAccountingSystem.Models.Location> { };
+    foreach (var item in @LocationService.GetAll())
+    {
+        locations.Add(item);
+    }
+}
+
+<h2>Добавить КИП</h2>
+<form asp-action="CreateInstrumentation" asp-controller="home">
+    @* TypeId *@
+    <p>
+        <label asp-for="TypeId">TypeId</label><br />
+        <select name="TypeId" id="TypeId">
+            @foreach (var item in types)
+            {
+                <option value="@item.Id.@item.Name">@item.Id.@item.Name</option>
+            }
+
+@*             <option value="volvo">Volvo</option>
+ *@
+        </select>
+        <span asp-validation-for="@TypeService"></span>
+    </p>
+    <p>
+        <label asp-for="Model">Model</label><br />
+        <input type="text" asp-for="Model" />
+        <span asp-validation-for="Model"></span>
+    </p>
+    <p>
+        <label asp-for="FactoryNumber">FactoryNumber</label><br />
+        <input type="text" asp-for="FactoryNumber" />
+        <span asp-validation-for="FactoryNumber"></span>
+    </p>
+    @* LocationId *@
+    <p>
+        <label asp-for="MeasurementLimits">MeasurementLimits</label><br />
+        <input type="text" asp-for="MeasurementLimits" />
+        <span asp-validation-for="MeasurementLimits"></span>
+    </p>
+    <p>
+        <label asp-for="Connection">Connection</label><br />
+        <input type="text" asp-for="Connection" />
+        <span asp-validation-for="Connection"></span>
+    </p>
+    <p>
+        <label asp-for="CheckLocation">CheckLocation</label><br />
+        <input type="text" asp-for="CheckLocation" />
+        <span asp-validation-for="CheckLocation"></span>
+    </p>
+    <p>
+        <label asp-for="Comment">Comment</label><br />
+        <input type="text" asp-for="Comment" />
+        <span asp-validation-for="Comment"></span>
+    </p>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+</form>
+

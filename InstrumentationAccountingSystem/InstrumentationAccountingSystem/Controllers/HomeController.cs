@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 //using Microsoft.IdentityModel.Tokens;
 using System.Runtime.CompilerServices;
 using InstrumentationAccountingSystem.Common.Dto;
+using static Azure.Core.HttpHeader;
+using InstrumentationAccountingSystem.BusinessLogic.Services;
 
 
 namespace InstrumentationAccountingSystem.Controllers
@@ -20,26 +22,38 @@ namespace InstrumentationAccountingSystem.Controllers
         private readonly IUserService _userService;
         private readonly ITypeService _typeService;
         private readonly ILocationService _locationService;
+        private readonly IInstrumentationService _instrumentationService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService, ILocationService locationService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService, ILocationService locationService, IInstrumentationService instrumentationService)
         {
             _logger = logger;
             _userService = userService;
             _typeService = typeService;
             _locationService = locationService;
+            _instrumentationService = instrumentationService;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Instrumentation> Instrumentations = new List<Instrumentation> { };
             User? user = null;
+            IEnumerable<Instrumentation> instrumentations = new List<Instrumentation> { };
+            IEnumerable<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
+            IEnumerable<Location> locations = new List<Location> { };
 
             //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth
+            // if UserId != null
 
             //Auth!!!!
             //Instrumentations = _noteService.GetNotes
 
-            return View();
+            HomeModel homeModel = new HomeModel
+            {
+                User = user,
+                Instrumentations = instrumentations,
+                Types = types,
+                Locations = locations
+            };
+            return View(homeModel);
         }
 
         public IActionResult CreateType()
@@ -74,6 +88,23 @@ namespace InstrumentationAccountingSystem.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View(locationCreateDto);
+        }
+
+        public IActionResult CreateInstrumentation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateInstrumentation(InstrumentationCreateDto instrumentationCreateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _instrumentationService.Create(instrumentationCreateDto);
+
+                return RedirectToAction("Index", "Home");
+            }
+            return View(instrumentationCreateDto);
         }
 
 

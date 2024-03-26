@@ -20,6 +20,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITypeService, TypeService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<IInstrumentationService, InstrumentationService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 var mappingConfig = new MapperConfiguration(mc =>

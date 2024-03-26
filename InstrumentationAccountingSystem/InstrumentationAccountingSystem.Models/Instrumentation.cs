@@ -17,28 +17,28 @@ namespace InstrumentationAccountingSystem.Models
         public Type Type { get; set; }
 
         [StringLength(50)]
-        public string Model { get; set; } // модель
+        public string? Model { get; set; } // модель
 
         [StringLength(50)]
-        public string FactoryNumber { get; set; } // заводской номер
+        public string? FactoryNumber { get; set; } // заводской номер
 
         public int LocationId { get; set; } // место установки
-        public Location Location { get; set; }
+        public Location? Location { get; set; }
 
         [StringLength(50)]
-        public string MeasurementLimits { get; set; } // пределы измерений
+        public string? MeasurementLimits { get; set; } // пределы измерений
 
         //date // дата последней проверки
 
         //time? // периодичность
 
         [StringLength(50)]
-        public string Connection { get; set; } // присоединение к процессу
+        public string? Connection { get; set; } // присоединение к процессу
 
         [StringLength(50)]
-        public string CheckLocation { get; set; } // место поверки
+        public string? CheckLocation { get; set; } // место поверки
 
         [StringLength(250)]
-        public string Comment { get; set; } // примечание
+        public string? Comment { get; set; } // примечание
     }
 }

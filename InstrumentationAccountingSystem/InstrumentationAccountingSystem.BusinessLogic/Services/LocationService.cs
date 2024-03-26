@@ -28,5 +28,12 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Services
             _applicationContext.Locations.Add(location);
             _applicationContext.SaveChanges();
         }
+
+        public List<Location> GetAll()
+        {
+            var locations = _applicationContext.Locations.ToList();
+
+            return locations;
+        }
     }
 }
