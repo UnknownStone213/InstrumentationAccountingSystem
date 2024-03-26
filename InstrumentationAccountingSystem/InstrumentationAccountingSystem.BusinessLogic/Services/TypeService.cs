@@ -35,5 +35,26 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Services
 
             return types;
         }
+
+        public void EditType(InstrumentationAccountingSystem.Models.Type type)
+        {
+            _applicationContext.Types.Update(type);
+            _applicationContext.SaveChanges();
+        }
+
+        public void DeleteTypeById(int id)
+        {
+            var type = _applicationContext.Types.FirstOrDefault(u => u.Id == id);
+
+            _applicationContext.Types.Remove(type);
+            _applicationContext.SaveChanges();
+        }
+
+        public InstrumentationAccountingSystem.Models.Type GetTypeById(int id)
+        {
+            var type = _applicationContext.Types.FirstOrDefault(u => u.Id == id);
+
+            return type;
+        }
     }
 }

@@ -69,10 +69,32 @@ namespace InstrumentationAccountingSystem.Controllers
             {
                 _typeService.Create(typeCreateDto);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("CreateType");
             }
             return View(typeCreateDto);
         }
+
+        public IActionResult EditType(int id)
+        {
+            InstrumentationAccountingSystem.Models.Type? type = _typeService.GetTypeById(id);
+
+            return View(type);
+        }
+        [HttpPost]
+        public IActionResult EditType(InstrumentationAccountingSystem.Models.Type type)
+        {
+            _typeService.EditType(type);
+            return RedirectToAction("CreateType");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteTypeById(int id)
+        {
+            InstrumentationAccountingSystem.Models.Type? type = _typeService.GetTypeById(id);
+            _typeService.DeleteTypeById(id);
+            return RedirectToAction("CreateType");
+        }
+
 
         public IActionResult CreateLocation()
         {

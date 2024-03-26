@@ -13,5 +13,11 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Interfaces
         void Create(TypeCreateDto typeCreateDto);
 
         List<InstrumentationAccountingSystem.Models.Type> GetAll();
+
+        void EditType(InstrumentationAccountingSystem.Models.Type type);
+
+        void DeleteTypeById(int id);
+
+        InstrumentationAccountingSystem.Models.Type GetTypeById(int id);
     }
 }
