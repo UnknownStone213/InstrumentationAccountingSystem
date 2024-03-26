@@ -14,7 +14,6 @@ else
 <p><a asp-action="CreateType">Добавить тип КИП</a></p>
 <p><a asp-action="CreateLocation">Добавить место установки КИП</a></p>
 
-
 <table class="table">
     <tr><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Присоединение к процессу</th><th>Место поверки</th><th>Примечание</th></tr>
     @foreach (var item in Model.Instrumentations)
@@ -33,7 +32,7 @@ else
                 <a asp-action="EditInstrumentation" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
             </td>
             <td>
-                <form asp-controller="Home" asp-action="DeleteInstrumentation" method="post" asp-route-id="@item.Id">
+                <form asp-controller="Home" asp-action="DeleteInstrumentationById" method="post" asp-route-id="@item.Id">
                     <input type="submit" value="Удалить" />
                 </form>
             </td>

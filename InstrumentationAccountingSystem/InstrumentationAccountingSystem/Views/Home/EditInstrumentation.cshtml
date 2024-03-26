@@ -1,0 +1,80 @@
+﻿@using InstrumentationAccountingSystem.BusinessLogic.Interfaces
+
+@model InstrumentationAccountingSystem.Models.Instrumentation
+@inject ITypeService TypeService
+@inject ILocationService LocationService
+
+@{
+    List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
+    foreach (var item in @TypeService.GetAll())
+    {
+        types.Add(item);
+    }
+    List<InstrumentationAccountingSystem.Models.Location> locations = new List<InstrumentationAccountingSystem.Models.Location> { };
+    foreach (var item in @LocationService.GetAll())
+    {
+        locations.Add(item);
+    }
+}
+
+<h2>Изменить КИП</h2>
+<form asp-action="EditInstrumentation" asp-controller="home" asp-route-id="@Model">
+    <p hidden>
+        <label asp-for="Id">Id</label><br />
+        <input type="text" asp-for="Id" value="@Model.Id" />
+        <span asp-validation-for="Id"></span>
+    </p>
+    <p>
+        <label asp-for="TypeId">Тип</label><br />
+        <select name="TypeId" id="TypeId">
+            @foreach (var item in types)
+            {
+                <option value="@item.Id">@item.Id. @item.Name</option>
+            }
+        </select>
+        <span asp-validation-for="@TypeService"></span>
+    </p>
+    <p>
+        <label asp-for="Model">Модель</label><br />
+        <input type="text" asp-for="Model" />
+        <span asp-validation-for="Model"></span>
+    </p>
+    <p>
+        <label asp-for="FactoryNumber">Заводской номер</label><br />
+        <input type="text" asp-for="FactoryNumber" />
+        <span asp-validation-for="FactoryNumber"></span>
+    </p>
+    <p>
+        <label asp-for="LocationId">Место установки</label><br />
+        <select name="LocationId" id="LocationId">
+            @foreach (var item in locations)
+            {
+                <option value="@item.Id">@item.Id. @item.Name</option>
+            }
+        </select>
+        <span asp-validation-for="@LocationService"></span>
+    </p>
+    <p>
+        <label asp-for="MeasurementLimits">Пределы измерений</label><br />
+        <input type="text" asp-for="MeasurementLimits" />
+        <span asp-validation-for="MeasurementLimits"></span>
+    </p>
+    <p>
+        <label asp-for="Connection">Присоединение к процессу</label><br />
+        <input type="text" asp-for="Connection" />
+        <span asp-validation-for="Connection"></span>
+    </p>
+    <p>
+        <label asp-for="CheckLocation">Место поверки</label><br />
+        <input type="text" asp-for="CheckLocation" />
+        <span asp-validation-for="CheckLocation"></span>
+    </p>
+    <p>
+        <label asp-for="Comment">Примечание</label><br />
+        <input type="text" asp-for="Comment" />
+        <span asp-validation-for="Comment"></span>
+    </p>
+    <p>
+        <input type="submit" value="Изменить" />
+    </p>
+</form>

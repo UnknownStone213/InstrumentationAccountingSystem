@@ -17,5 +17,7 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Interfaces
         void DeleteInstrumentationById(int id);
 
         void Edit(Instrumentation Instrumentation);
+
+        Instrumentation GetInstrumentationById(int id);
     }
 }

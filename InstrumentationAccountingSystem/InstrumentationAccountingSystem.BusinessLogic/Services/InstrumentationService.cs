@@ -49,5 +49,12 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Services
             _applicationContext.Instrumentations.Update(instrumentation);
             _applicationContext.SaveChanges();
         }
+
+        public Instrumentation GetInstrumentationById(int id)
+        {
+            var instrumentation = _applicationContext.Instrumentations.FirstOrDefault(u => u.Id == id);
+
+            return instrumentation;
+        }
     }
 }

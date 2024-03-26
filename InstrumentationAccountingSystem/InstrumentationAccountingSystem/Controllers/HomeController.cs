@@ -10,6 +10,7 @@ using System.Diagnostics;
 //using Microsoft.IdentityModel.Tokens;
 //using System.Runtime.CompilerServices;
 using InstrumentationAccountingSystem.Common.Dto;
+using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using static Azure.Core.HttpHeader;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
@@ -60,6 +61,47 @@ namespace InstrumentationAccountingSystem.Controllers
                 Locations = locations
             };
             return View(homeModel);
+        }
+
+        public IActionResult CreateInstrumentation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateInstrumentation(InstrumentationCreateDto instrumentationCreateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _instrumentationService.Create(instrumentationCreateDto);
+
+                return RedirectToAction("Index");
+            }
+            return View(instrumentationCreateDto);
+        }
+
+        // edit
+        // edit
+        public IActionResult EditInstrumentation(int id)
+        {
+            Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
+
+            return View(instrumentation);
+        }
+        [HttpPost]
+        public IActionResult EditInstrumentation(Instrumentation instrumentation)
+        {
+            _instrumentationService.Edit(instrumentation);
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public IActionResult DeleteInstrumentationById(int id)
+        {
+            Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
+            _instrumentationService.DeleteInstrumentationById(id);
+            return RedirectToAction("Index");
         }
 
         public IActionResult CreateType()
@@ -137,24 +179,6 @@ namespace InstrumentationAccountingSystem.Controllers
             _locationService.DeleteLocationById(id);
             return RedirectToAction("CreateLocation");
         }
-
-        public IActionResult CreateInstrumentation()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CreateInstrumentation(InstrumentationCreateDto instrumentationCreateDto)
-        {
-            if (ModelState.IsValid)
-            {
-                _instrumentationService.Create(instrumentationCreateDto);
-
-                return RedirectToAction("Index");
-            }
-            return View(instrumentationCreateDto);
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
