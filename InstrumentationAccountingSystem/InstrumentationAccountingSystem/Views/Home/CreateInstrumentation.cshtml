@@ -27,11 +27,8 @@
         <select name="TypeId" id="TypeId">
             @foreach (var item in types)
             {
-                <option value="@item.Id.@item.Name">@item.Id.@item.Name</option>
+                <option value="@item.Id">@item.Id. @item.Name</option>
             }
-
-@*             <option value="volvo">Volvo</option>
- *@
         </select>
         <span asp-validation-for="@TypeService"></span>
     </p>
@@ -46,6 +43,17 @@
         <span asp-validation-for="FactoryNumber"></span>
     </p>
     @* LocationId *@
+    <p>
+        <label asp-for="LocationId">LocationId</label><br />
+        <select name="LocationId" id="LocationId">
+            <option value=""></option>
+            @foreach (var item in locations)
+            {
+                <option value="@item.Id">@item.Id. @item.Name</option>
+            }
+        </select>
+        <span asp-validation-for="@LocationService"></span>
+    </p>
     <p>
         <label asp-for="MeasurementLimits">MeasurementLimits</label><br />
         <input type="text" asp-for="MeasurementLimits" />
