@@ -18,11 +18,13 @@ namespace InstrumentationAccountingSystem.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
+        private readonly ITypeService _typeService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService)
         {
             _logger = logger;
             _userService = userService;
+            _typeService = typeService;
         }
 
         public IActionResult Index()
@@ -38,7 +40,22 @@ namespace InstrumentationAccountingSystem.Controllers
             return View();
         }
 
+        public IActionResult CreateType()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult CreateType(TypeCreateDto typeCreateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _typeService.Create(typeCreateDto);
+
+                return RedirectToAction("Index", "Home");
+            }
+            return View(typeCreateDto);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

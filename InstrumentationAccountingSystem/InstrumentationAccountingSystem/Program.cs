@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //    .AddCookie();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITypeService, TypeService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 var mappingConfig = new MapperConfiguration(mc =>

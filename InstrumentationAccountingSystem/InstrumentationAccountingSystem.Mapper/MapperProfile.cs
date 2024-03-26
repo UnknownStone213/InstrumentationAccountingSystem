@@ -13,7 +13,8 @@ namespace InstrumentationAccountingSystem.Mapper
     {
         public MapperProfile()
         {
-            //CreateMap<UserCreateDto, User>();
+            CreateMap<UserCreateDto, User>();
+            CreateMap<TypeCreateDto, InstrumentationAccountingSystem.Models.Type>();
             //CreateMap<UserLogInDto, User>();
             //CreateMap<NoteCreateDto, Note>();
         }

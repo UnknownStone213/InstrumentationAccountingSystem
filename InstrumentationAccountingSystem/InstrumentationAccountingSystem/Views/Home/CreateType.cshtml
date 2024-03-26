@@ -1,0 +1,14 @@
+﻿@model InstrumentationAccountingSystem.Models.Type
+
+<h2>Добавить тип КИП</h2>
+<form asp-action="CreateType" asp-controller="home">
+    <p>
+        <label asp-for="Name">Name</label><br />
+        <input type="text" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </p>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+</form>
+
