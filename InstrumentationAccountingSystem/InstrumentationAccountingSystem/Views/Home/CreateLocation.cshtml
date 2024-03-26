@@ -1,9 +1,21 @@
-﻿@model InstrumentationAccountingSystem.Models.Location
+﻿@using InstrumentationAccountingSystem.BusinessLogic.Interfaces
+
+@model InstrumentationAccountingSystem.Models.Location
+
+@inject ILocationService LocationService
+
+@{
+    List<InstrumentationAccountingSystem.Models.Location> locations = new List<InstrumentationAccountingSystem.Models.Location> { };
+    foreach (var item in @LocationService.GetAll())
+    {
+        locations.Add(item);
+    }
+}
 
 <h2>Добавить место установки КИП</h2>
 <form asp-action="CreateLocation" asp-controller="home">
     <p>
-        <label asp-for="Name">Name</label><br />
+        <label asp-for="Name">Место установки</label><br />
         <input type="text" asp-for="Name" />
         <span asp-validation-for="Name"></span>
     </p>
@@ -12,3 +24,21 @@
     </p>
 </form>
 
+<table class="table">
+    <tr><th>Id</th><th>Место</th></tr>
+    @foreach (var item in locations)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>
+                <a asp-action="EditLocation" asp-controller="Home" asp-route-id="@item.Id">EditLocation</a>
+            </td>
+            <td>
+                <form asp-controller="Home" asp-action="DeleteLocationById" method="post" asp-route-id="@item.Id">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>

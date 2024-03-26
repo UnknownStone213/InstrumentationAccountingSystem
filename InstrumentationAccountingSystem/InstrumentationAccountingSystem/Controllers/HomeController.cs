@@ -2,16 +2,17 @@ using InstrumentationAccountingSystem.BusinessLogic.Interfaces;
 using InstrumentationAccountingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 //using Microsoft.AspNetCore.Authentication.Cookies;
 //using Microsoft.AspNetCore.Authentication;
 //using Microsoft.AspNetCore.Authorization;
 //using System.Security.Claims;
 //using Microsoft.IdentityModel.Tokens;
-using System.Runtime.CompilerServices;
+//using System.Runtime.CompilerServices;
 using InstrumentationAccountingSystem.Common.Dto;
-using static Azure.Core.HttpHeader;
 using InstrumentationAccountingSystem.BusinessLogic.Services;
+//using static Azure.Core.HttpHeader;
+//using InstrumentationAccountingSystem.BusinessLogic.Services;
 
 
 namespace InstrumentationAccountingSystem.Controllers
@@ -75,6 +76,12 @@ namespace InstrumentationAccountingSystem.Controllers
 
         public IActionResult CreateLocation()
         {
+            List<InstrumentationAccountingSystem.Models.Location> locations = new List<InstrumentationAccountingSystem.Models.Location> { };
+            foreach (var item in _locationService.GetAll())
+            {
+                locations.Add(item);
+            }
+            ViewData["Locations"] = locations;
             return View();
         }
 

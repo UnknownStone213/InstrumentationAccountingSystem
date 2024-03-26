@@ -1,9 +1,22 @@
-﻿@model InstrumentationAccountingSystem.Models.Type
+﻿@using InstrumentationAccountingSystem.BusinessLogic.Interfaces
+
+@model InstrumentationAccountingSystem.Models.Type
+
+@inject ITypeService TypeService
+
+@{
+    List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
+    foreach (var item in @TypeService.GetAll())
+    {
+        types.Add(item);
+    }
+}
+
 
 <h2>Добавить тип КИП</h2>
 <form asp-action="CreateType" asp-controller="home">
     <p>
-        <label asp-for="Name">Name</label><br />
+        <label asp-for="Name">Название типа КИС</label><br />
         <input type="text" asp-for="Name" />
         <span asp-validation-for="Name"></span>
     </p>
@@ -12,3 +25,21 @@
     </p>
 </form>
 
+<table class="table">
+    <tr><th>Id</th><th>Тип</th></tr>
+    @foreach (var item in types)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>
+                <a asp-action="EditType" asp-controller="Home" asp-route-id="@item.Id">EditType</a>
+            </td>
+            <td>
+                <form asp-controller="Home" asp-action="DeleteTypeById" method="post" asp-route-id="@item.Id">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>
