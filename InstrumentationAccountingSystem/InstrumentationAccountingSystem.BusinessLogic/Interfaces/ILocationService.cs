@@ -13,5 +13,11 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Interfaces
         void Create(LocationCreateDto locationCreateDto);
 
         List<Location> GetAll();
+
+        void EditLocation(Location location);
+
+        void DeleteLocationById(int id);
+
+        Location GetLocationById(int id);
     }
 }

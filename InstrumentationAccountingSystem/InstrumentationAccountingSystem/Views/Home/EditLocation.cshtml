@@ -1,0 +1,18 @@
+﻿@model InstrumentationAccountingSystem.Models.Location
+
+<h2>Изменить место установки</h2>
+<form asp-action="EditLocation" asp-controller="home" asp-route-id="@Model">
+    <p hidden>
+        <label asp-for="Id">Id</label><br />
+        <input type="text" asp-for="Id" value="@Model.Id" />
+        <span asp-validation-for="Id"></span>
+    </p>
+    <p>
+        <label asp-for="Name">Name</label><br />
+        <input type="text" asp-for="Name" value="@Model.Name" />
+        <span asp-validation-for="Name"></span>
+    </p>
+    <p>
+        <input type="submit" value="Изменить" />
+    </p>
+</form>

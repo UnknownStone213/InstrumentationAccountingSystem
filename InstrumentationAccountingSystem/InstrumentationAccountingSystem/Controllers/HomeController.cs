@@ -76,15 +76,8 @@ namespace InstrumentationAccountingSystem.Controllers
 
         public IActionResult CreateLocation()
         {
-            List<InstrumentationAccountingSystem.Models.Location> locations = new List<InstrumentationAccountingSystem.Models.Location> { };
-            foreach (var item in _locationService.GetAll())
-            {
-                locations.Add(item);
-            }
-            ViewData["Locations"] = locations;
             return View();
         }
-
         [HttpPost]
         public IActionResult CreateLocation(LocationCreateDto locationCreateDto)
         {
@@ -92,9 +85,30 @@ namespace InstrumentationAccountingSystem.Controllers
             {
                 _locationService.Create(locationCreateDto);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("CreateLocation");
             }
             return View(locationCreateDto);
+        }
+
+        public IActionResult EditLocation(int id)
+        {
+            Location? location = _locationService.GetLocationById(id);
+
+            return View(location);
+        }
+        [HttpPost]
+        public IActionResult EditLocation(Location location)
+        {
+            _locationService.EditLocation(location);
+            return RedirectToAction("CreateLocation");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteLocationById(int id)
+        {
+            Location location = _locationService.GetLocationById(id);
+            _locationService.DeleteLocationById(id);
+            return RedirectToAction("CreateLocation");
         }
 
         public IActionResult CreateInstrumentation()
@@ -109,7 +123,7 @@ namespace InstrumentationAccountingSystem.Controllers
             {
                 _instrumentationService.Create(instrumentationCreateDto);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             return View(instrumentationCreateDto);
         }

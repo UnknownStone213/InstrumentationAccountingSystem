@@ -35,5 +35,26 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Services
 
             return locations;
         }
+
+        public void EditLocation(Location location)
+        {
+            _applicationContext.Locations.Update(location);
+            _applicationContext.SaveChanges();
+        }
+
+        public void DeleteLocationById(int id)
+        {
+            var location = _applicationContext.Locations.FirstOrDefault(u => u.Id == id);
+
+            _applicationContext.Locations.Remove(location);
+            _applicationContext.SaveChanges();
+        }
+
+        public Location GetLocationById(int id) 
+        {
+            var location = _applicationContext.Locations.FirstOrDefault(u => u.Id == id);
+
+            return location;
+        }
     }
 }
