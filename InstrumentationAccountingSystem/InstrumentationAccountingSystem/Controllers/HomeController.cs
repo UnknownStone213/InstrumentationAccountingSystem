@@ -10,7 +10,7 @@ using System.Diagnostics;
 //using Microsoft.IdentityModel.Tokens;
 //using System.Runtime.CompilerServices;
 using InstrumentationAccountingSystem.Common.Dto;
-using InstrumentationAccountingSystem.BusinessLogic.Services;
+//using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using static Azure.Core.HttpHeader;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 
@@ -37,15 +37,20 @@ namespace InstrumentationAccountingSystem.Controllers
         public IActionResult Index()
         {
             User? user = null;
-            IEnumerable<Instrumentation> instrumentations = new List<Instrumentation> { };
-            IEnumerable<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
-            IEnumerable<Location> locations = new List<Location> { };
+            List<Instrumentation> instrumentations = new List<Instrumentation> { };
+            List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
+            List<Location> locations = new List<Location> { };
+
+            instrumentations = _instrumentationService.GetAll();
+            types = _typeService.GetAll();
+            locations = _locationService.GetAll();
+
+            //IEnumerable
 
             //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth
             // if UserId != null
-
             //Auth!!!!
-            //Instrumentations = _noteService.GetNotes
+            // filter!
 
             HomeModel homeModel = new HomeModel
             {

@@ -10,10 +10,11 @@ namespace InstrumentationAccountingSystem.Models
     {
         public User? User { get; set; }
 
-        public IEnumerable<Instrumentation> Instrumentations { get; set; } = new List<Instrumentation>();
+        public List<Instrumentation> Instrumentations { get; set; } = new List<Instrumentation>();
 
-        public IEnumerable<Type> Types { get; set; } = new List<Type>();
+        public List<Type> Types { get; set; } = new List<Type>();
 
-        public IEnumerable<Location> Locations { get; set; } = new List<Location>();
+        public List<Location> Locations { get; set; } = new List<Location>();
+        ////IEnumerable
     }
 }
