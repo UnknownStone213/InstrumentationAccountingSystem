@@ -19,6 +19,7 @@ builder.Services.AddControllersWithViews();
 //    .AddCookie();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITypeService, TypeService>();
+builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 var mappingConfig = new MapperConfiguration(mc =>

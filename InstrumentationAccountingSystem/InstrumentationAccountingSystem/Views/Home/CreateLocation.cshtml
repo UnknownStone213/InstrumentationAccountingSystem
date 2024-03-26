@@ -1,0 +1,14 @@
+﻿@model InstrumentationAccountingSystem.Models.Location
+
+<h2>Добавить место установки КИП</h2>
+<form asp-action="CreateLocation" asp-controller="home">
+    <p>
+        <label asp-for="Name">Name</label><br />
+        <input type="text" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </p>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+</form>
+
