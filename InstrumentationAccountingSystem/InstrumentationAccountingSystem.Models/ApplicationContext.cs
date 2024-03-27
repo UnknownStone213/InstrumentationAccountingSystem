@@ -21,5 +21,7 @@ namespace InstrumentationAccountingSystem.Models
         public DbSet<Type> Types { get; set; }
 
         public DbSet<Location> Locations { get; set; }
+
+        public DbSet<Verification> Verifications { get; set; }
     }
 }

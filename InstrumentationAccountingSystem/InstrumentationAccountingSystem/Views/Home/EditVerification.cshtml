@@ -1,0 +1,40 @@
+﻿@using InstrumentationAccountingSystem.BusinessLogic.Interfaces
+
+@model InstrumentationAccountingSystem.Models.Verification
+
+@inject IInstrumentationService InstrumentationService
+
+@{
+    List<Instrumentation> instrumentations = new List<Instrumentation> { };
+    foreach (var item in @InstrumentationService.GetAll())
+    {
+        instrumentations.Add(item);
+    }
+}
+
+<h2>Изменить поверку КИП</h2>
+<form asp-action="EditVerification" asp-controller="home" asp-route-id="@Model">
+    <p hidden>
+        <label asp-for="Id">Id</label><br />
+        <input type="text" asp-for="Id" value="@Model.Id" />
+        <span asp-validation-for="Id"></span>
+    </p>
+    <p>
+        <label asp-for="Date">Дата поверки КИП</label><br />
+        <input type="text" asp-for="Date" value="@Model.Date" />
+        <span asp-validation-for="Date"></span>
+    </p>
+    <p>
+        <label asp-for="InstrumentationId">КИП</label><br />
+        <select name="InstrumentationId" id="InstrumentationId">
+            @foreach (var item in instrumentations)
+            {
+                <option value="@item.Id">@item.Id. @item.Model</option>
+            }
+        </select>
+        <span asp-validation-for="@InstrumentationService"></span>
+    </p>
+    <p>
+        <input type="submit" value="Изменить" />
+    </p>
+</form>

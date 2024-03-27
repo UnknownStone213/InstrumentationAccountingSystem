@@ -1,0 +1,61 @@
+﻿@using InstrumentationAccountingSystem.BusinessLogic.Interfaces
+
+@model InstrumentationAccountingSystem.Models.Verification
+
+@inject IVerificationService VerificationService
+@inject IInstrumentationService InstrumentationService
+
+@{
+    List<Verification> verifications = new List<Verification> { };
+    foreach (var item in @VerificationService.GetAll())
+    {
+        verifications.Add(item);
+    }
+    List<Instrumentation> instrumentations = new List<Instrumentation> { };
+    foreach (var item in @InstrumentationService.GetAll())
+    {
+        instrumentations.Add(item);
+    }
+}
+
+<h2>Добавить поверку КИП</h2>
+<form asp-action="CreateVerification" asp-controller="home">
+    <p>
+        <label asp-for="Date">Дата поверки КИП</label><br />
+        <input type="text" asp-for="Date" value="@DateTime.Now"/>
+        <span asp-validation-for="Date"></span>
+    </p>
+    <p>
+        <label asp-for="InstrumentationId">КИП</label><br />
+        <select name="InstrumentationId" id="InstrumentationId">
+            @foreach (var item in instrumentations)
+            {
+                <option value="@item.Id">@item.Id. @item.Model</option>
+            }
+        </select>
+        <span asp-validation-for="@VerificationService"></span>
+    </p>
+    <p>
+        <input type="submit" value="Добавить" />
+    </p>
+</form>
+
+<table class="table">
+    <tr><th>Id</th><th>Дата</th><th>КИП Id</th></tr>
+    @foreach (var item in verifications)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Date</td>
+            <td>@instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Id</td>
+            <td>
+                <a asp-action="EditVerification" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
+            </td>
+            <td>
+                <form asp-controller="Home" asp-action="DeleteVerificationById" method="post" asp-route-id="@item.Id">
+                    <input type="submit" value="Удалить" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -25,14 +25,16 @@ namespace InstrumentationAccountingSystem.Controllers
         private readonly ITypeService _typeService;
         private readonly ILocationService _locationService;
         private readonly IInstrumentationService _instrumentationService;
+        private readonly IVerificationService _verificationService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService, ILocationService locationService, IInstrumentationService instrumentationService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService, ILocationService locationService, IInstrumentationService instrumentationService, IVerificationService verificationService)
         {
             _logger = logger;
             _userService = userService;
             _typeService = typeService;
             _locationService = locationService;
             _instrumentationService = instrumentationService;
+            _verificationService = verificationService;
         }
 
         public IActionResult Index()
@@ -80,8 +82,6 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(instrumentationCreateDto);
         }
 
-        // edit
-        // edit
         public IActionResult EditInstrumentation(int id)
         {
             Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
@@ -95,13 +95,49 @@ namespace InstrumentationAccountingSystem.Controllers
             return RedirectToAction("Index");
         }
 
-
         [HttpPost]
         public IActionResult DeleteInstrumentationById(int id)
         {
             Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
             _instrumentationService.DeleteInstrumentationById(id);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult CreateVerification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateVerification(VerificationCreateDto verificationCreateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _verificationService.Create(verificationCreateDto);
+
+                return RedirectToAction("CreateVerification");
+            }
+            return View(verificationCreateDto);
+        }
+
+        public IActionResult EditVerification(int id)
+        {
+            Verification? verification = _verificationService.GetVerificationById(id);
+
+            return View(verification);
+        }
+        [HttpPost]
+        public IActionResult EditVerification(Verification verification)
+        {
+            _verificationService.EditVerification(verification);
+            return RedirectToAction("CreateVerification");
+        }
+
+        public IActionResult DeleteVerificationById(int id)
+        {
+            Verification? verification = _verificationService.GetVerificationById(id);
+            _verificationService.DeleteVerificationById(id);
+            return RedirectToAction("CreateVerification");
         }
 
         public IActionResult CreateType()

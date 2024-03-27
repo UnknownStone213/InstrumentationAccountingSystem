@@ -17,6 +17,7 @@ namespace InstrumentationAccountingSystem.Mapper
             CreateMap<TypeCreateDto, InstrumentationAccountingSystem.Models.Type>();
             CreateMap<LocationCreateDto, Location>();
             CreateMap<InstrumentationCreateDto, Instrumentation>();
+            CreateMap<VerificationCreateDto, Verification>();
             //CreateMap<UserLogInDto, User>();
             //CreateMap<NoteCreateDto, Note>();
         }
