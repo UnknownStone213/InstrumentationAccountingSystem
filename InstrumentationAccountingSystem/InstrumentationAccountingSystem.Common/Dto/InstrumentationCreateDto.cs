@@ -20,7 +20,7 @@ namespace InstrumentationAccountingSystem.Common.Dto
 
         //date // дата последней проверки
 
-        //time? // периодичность
+        public int Frequency { get; set; } // периодичность измерений
 
         public string? Connection { get; set; } // присоединение к процессу
 

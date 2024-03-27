@@ -36,12 +36,12 @@
     </p>
     <p>
         <label asp-for="Model">Модель</label><br />
-        <input type="text" asp-for="Model" />
+        <input type="text" asp-for="Model" value="@Model.Model" />
         <span asp-validation-for="Model"></span>
     </p>
     <p>
         <label asp-for="FactoryNumber">Заводской номер</label><br />
-        <input type="text" asp-for="FactoryNumber" />
+        <input type="text" asp-for="FactoryNumber" value="@Model.FactoryNumber" />
         <span asp-validation-for="FactoryNumber"></span>
     </p>
     <p>
@@ -56,22 +56,27 @@
     </p>
     <p>
         <label asp-for="MeasurementLimits">Пределы измерений</label><br />
-        <input type="text" asp-for="MeasurementLimits" />
+        <input type="text" asp-for="MeasurementLimits" value="@Model.MeasurementLimits" />
         <span asp-validation-for="MeasurementLimits"></span>
     </p>
     <p>
+        <label asp-for="Frequency">Периодичность измерений</label><br />
+        <input type="text" asp-for="Frequency" value="@Model.Frequency" />
+        <span asp-validation-for="Frequency"></span>
+    </p>
+    <p>
         <label asp-for="Connection">Присоединение к процессу</label><br />
-        <input type="text" asp-for="Connection" />
+        <input type="text" asp-for="Connection" value="@Model.Connection" />
         <span asp-validation-for="Connection"></span>
     </p>
     <p>
         <label asp-for="CheckLocation">Место поверки</label><br />
-        <input type="text" asp-for="CheckLocation" />
+        <input type="text" asp-for="CheckLocation" value="@Model.CheckLocation" />
         <span asp-validation-for="CheckLocation"></span>
     </p>
     <p>
         <label asp-for="Comment">Примечание</label><br />
-        <input type="text" asp-for="Comment" />
+        <input type="text" asp-for="Comment" value="@Model.Comment" />
         <span asp-validation-for="Comment"></span>
     </p>
     <p>

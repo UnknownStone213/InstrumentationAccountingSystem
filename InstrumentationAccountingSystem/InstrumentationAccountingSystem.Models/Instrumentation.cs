@@ -30,7 +30,8 @@ namespace InstrumentationAccountingSystem.Models
 
         //date // дата последней проверки
 
-        //time? // периодичность
+        [Required]
+        public int Frequency { get; set; } // периодичность измерений
 
         [StringLength(50)]
         public string? Connection { get; set; } // присоединение к процессу

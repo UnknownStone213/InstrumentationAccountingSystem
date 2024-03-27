@@ -16,7 +16,7 @@ else
 <p><a asp-action="CreateVerification">Добавить поверку КИП</a></p>
 
 <table class="table">
-    <tr><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Присоединение к процессу</th><th>Место поверки</th><th>Примечание</th></tr>
+    <tr><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Периодичность измерений</th><th>Присоединение к процессу</th><th>Место поверки</th><th>Примечание</th></tr>
     @foreach (var item in Model.Instrumentations)
     {
         <tr>
@@ -26,6 +26,7 @@ else
             <td>@item.FactoryNumber</td>
             <td>@Model.Locations.Single(u => u.Id == item.LocationId).Name</td>
             <td>@item.MeasurementLimits</td>
+            <td>@item.Frequency</td>
             <td>@item.Connection</td>
             <td>@item.CheckLocation</td>
             <td>@item.Comment</td>

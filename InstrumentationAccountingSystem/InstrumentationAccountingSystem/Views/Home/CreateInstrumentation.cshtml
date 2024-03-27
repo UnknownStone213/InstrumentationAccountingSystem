@@ -55,6 +55,11 @@
         <span asp-validation-for="MeasurementLimits"></span>
     </p>
     <p>
+        <label asp-for="Frequency">Периодичность измерений</label><br />
+        <input type="text" asp-for="Frequency" value="12"/>
+        <span asp-validation-for="Frequency"></span>
+    </p>
+    <p>
         <label asp-for="Connection">Присоединение к процессу</label><br />
         <input type="text" asp-for="Connection" />
         <span asp-validation-for="Connection"></span>
