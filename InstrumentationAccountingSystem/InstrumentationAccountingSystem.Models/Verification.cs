@@ -13,7 +13,7 @@ namespace InstrumentationAccountingSystem.Models
         public int Id { get; set; }
 
         [Required]
-        public DateTime Date { get; set; } // дата поверки
+        public DateOnly Date { get; set; } // дата поверки
 
         public int InstrumentationId { get; set; } // КИП
         public Instrumentation Instrumentation { get; set; }

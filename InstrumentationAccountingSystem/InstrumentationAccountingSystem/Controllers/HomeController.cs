@@ -37,18 +37,20 @@ namespace InstrumentationAccountingSystem.Controllers
             _verificationService = verificationService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? verificationId)
         {
+            ViewData["verificationId"] = verificationId;
+
             User? user = null;
             List<Instrumentation> instrumentations = new List<Instrumentation> { };
             List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
             List<Location> locations = new List<Location> { };
+            List<Verification> verifications = new List<Verification> { };
 
             instrumentations = _instrumentationService.GetAll();
             types = _typeService.GetAll();
             locations = _locationService.GetAll();
-
-            //IEnumerable
+            verifications = _verificationService.GetAll();
 
             //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth
             // if UserId != null
@@ -60,7 +62,8 @@ namespace InstrumentationAccountingSystem.Controllers
                 User = user,
                 Instrumentations = instrumentations,
                 Types = types,
-                Locations = locations
+                Locations = locations,
+                Verifications = verifications
             };
             return View(homeModel);
         }

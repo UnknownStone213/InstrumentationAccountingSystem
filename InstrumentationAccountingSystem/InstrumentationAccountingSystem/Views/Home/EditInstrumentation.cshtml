@@ -3,6 +3,7 @@
 @model InstrumentationAccountingSystem.Models.Instrumentation
 @inject ITypeService TypeService
 @inject ILocationService LocationService
+@inject IVerificationService VerificationService
 
 @{
     List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
@@ -15,9 +16,14 @@
     {
         locations.Add(item);
     }
+    List<Verification> verifications = new List<Verification> { };
+    foreach (var item in @VerificationService.GetAll())
+    {
+        verifications.Add(item);
+    }
 }
 
-<h2>Изменить КИП</h2>
+<h5>Изменить прибор</h5>
 <form asp-action="EditInstrumentation" asp-controller="home" asp-route-id="@Model">
     <p hidden>
         <label asp-for="Id">Id</label><br />
@@ -76,10 +82,33 @@
     </p>
     <p>
         <label asp-for="Comment">Примечание</label><br />
-        <input type="text" asp-for="Comment" value="@Model.Comment" />
+        <textarea type="text" asp-for="Comment" value="@Model.Comment" maxlength="250" rows="4" cols="70" ></textarea>
         <span asp-validation-for="Comment"></span>
     </p>
     <p>
         <input type="submit" value="Изменить" />
     </p>
 </form>
+
+<h4>Поверки:</h4>
+<table class="table">
+    <tr><th>Id</th><th>Место</th></tr>
+    @foreach (var item in verifications)
+    {
+        if (item.InstrumentationId == Model.Id)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Date</td>
+                <td>
+                    <a asp-action="EditVerification" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
+                </td>
+                <td>
+                    <form asp-controller="Home" asp-action="DeleteVerificationById" method="post" asp-route-id="@item.Id">
+                        <input type="submit" value="Удалить" />
+                    </form>
+                </td>
+            </tr>
+        }
+    }
+</table>

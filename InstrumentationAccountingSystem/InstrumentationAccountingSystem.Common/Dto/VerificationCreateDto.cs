@@ -8,7 +8,7 @@ namespace InstrumentationAccountingSystem.Common.Dto
 {
     public class VerificationCreateDto
     {
-        public DateTime Date { get; set; } // дата поверки
+        public DateOnly Date { get; set; } // дата поверки
 
         public int InstrumentationId { get; set; } // КИП
     }

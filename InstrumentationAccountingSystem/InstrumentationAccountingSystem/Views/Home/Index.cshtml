@@ -10,28 +10,61 @@ else
 }
  *@
 
-<p><a asp-action="CreateInstrumentation">Добавить КИП</a></p>
-<p><a asp-action="CreateType">Добавить тип КИП</a></p>
-<p><a asp-action="CreateLocation">Добавить место установки КИП</a></p>
-<p><a asp-action="CreateVerification">Добавить поверку КИП</a></p>
+@{
+    //string? a = Context.Request.Query["verificationId"];
+    //string? a = ViewData["verificationId"]?.ToString();
+    //string? b = Context.Request.QueryString.Value.IndexOf("verificationId");
+    int? verificationId = Convert.ToInt32(ViewContext.RouteData.Values["verificationId"]?.ToString());
+}
+
+<h5><a asp-action="CreateInstrumentation">Добавить прибор</a></h5>
+<h5><a asp-action="CreateType">Добавить тип прибора</a></h5>
+<h5><a asp-action="CreateLocation">Добавить место установки</a></h5>
+<h5><a asp-action="CreateVerification">Добавить поверку прибора</a></h5>
+
+@* <div id="verificationsDIV" style="display:none">
+    <h5>Поверки:</h5>
+    <table class="table">
+        <tr><td>Id</td><td>Дата</td></tr>
+        @foreach (var verification in Model.Verifications)
+        {
+            if (verification.InstrumentationId == verificationId)
+            {
+                <tr>
+                    <td>@verification.Id</td>
+                    <td>@verification.Date</td>
+                </tr>
+            }
+        }
+    </table>
+</div> *@
+
+<form method="get">
+    <label>Модель:</label>
+    <input type="text" name="Model" maxlength="50" value="" style="display:inline;"/>
+    <input type="text" name="Model" maxlength="50" value="" style="display:inline;" />
+</form>
 
 <table class="table">
-    <tr><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Периодичность измерений</th><th>Присоединение к процессу</th><th>Место поверки</th><th>Примечание</th></tr>
+    <tr><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Дата последней поверки</th><th>Периодичность измерений</th><th>Присоединение к процессу</th><th>Место поверки</th><th>Примечание</th></tr>
     @foreach (var item in Model.Instrumentations)
     {
-        <tr>
+        <tr onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';">
             <td>@item.Id</td>
             <td>@Model.Types.Single(u => u.Id == item.TypeId).Name</td>
             <td>@item.Model</td>
             <td>@item.FactoryNumber</td>
             <td>@Model.Locations.Single(u => u.Id == item.LocationId).Name</td>
             <td>@item.MeasurementLimits</td>
+            <td>@Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date</td>
             <td>@item.Frequency</td>
             <td>@item.Connection</td>
             <td>@item.CheckLocation</td>
             <td>@item.Comment</td>
             <td>
-                <a asp-action="EditInstrumentation" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
+                <form asp-controller="Home" asp-action="Index" method="get" asp-route-validationId="@item.Id">
+                    <input type="submit" value="Поверки" />
+                </form>
             </td>
             <td>
                 <form asp-controller="Home" asp-action="DeleteInstrumentationById" method="post" asp-route-id="@item.Id">
@@ -41,3 +74,29 @@ else
         </tr>
     }
 </table>
+
+<script src="~/js/site.js"></script>
+
+@* <script>
+    function filter() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script> *@
