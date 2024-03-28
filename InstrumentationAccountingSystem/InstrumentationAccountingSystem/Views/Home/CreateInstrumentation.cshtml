@@ -71,7 +71,7 @@
     </p>
     <p>
         <label asp-for="Comment">Примечание</label><br />
-        <input type="text" asp-for="Comment" />
+        <textarea type="text" asp-for="Comment" maxlength="250" rows="4" cols="70"></textarea>
         <span asp-validation-for="Comment"></span>
     </p>
     <p>

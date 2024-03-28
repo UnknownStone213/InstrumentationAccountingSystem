@@ -24,8 +24,8 @@
 }
 
 <h5>Изменить прибор</h5>
-<form asp-action="EditInstrumentation" asp-controller="home" asp-route-id="@Model">
-    <p hidden>
+<form asp-action="EditInstrumentation" asp-controller="home" asp-route-id="@Model" style="flex:none">
+    <p>
         <label asp-for="Id">Id</label><br />
         <input type="text" asp-for="Id" value="@Model.Id" />
         <span asp-validation-for="Id"></span>
@@ -35,7 +35,7 @@
         <select name="TypeId" id="TypeId">
             @foreach (var item in types)
             {
-                <option value="@item.Id">@item.Id. @item.Name</option>
+                <option value="@item.Id" >@item.Id. @item.Name</option>
             }
         </select>
         <span asp-validation-for="@TypeService"></span>
@@ -112,3 +112,9 @@
         }
     }
 </table>
+
+<style scoped type="text/css">
+    input{
+        display: inline;
+    }
+</style>

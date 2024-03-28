@@ -20,12 +20,12 @@
         <span asp-validation-for="Id"></span>
     </p>
     <p>
-        <label asp-for="Date">Дата поверки КИП</label><br />
-        <input type="text" asp-for="Date" value="@Model.Date" />
+        <label asp-for="Date">Дата поверки</label><br />
+        <input type="date" asp-for="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="Date"></span>
     </p>
     <p>
-        <label asp-for="InstrumentationId">КИП</label><br />
+        <label asp-for="InstrumentationId">прибор</label><br />
         <select name="InstrumentationId" id="InstrumentationId">
             @foreach (var item in instrumentations)
             {

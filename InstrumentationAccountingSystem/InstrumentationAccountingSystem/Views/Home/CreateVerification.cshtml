@@ -17,12 +17,12 @@
         instrumentations.Add(item);
     }
 }
-
+@*  value="@DateTime.Now.ToShortDateString()" *@
 <h5>Добавить поверку прибора</h5>
 <form asp-action="CreateVerification" asp-controller="home">
     <p>
         <label asp-for="Date">Дата поверки</label><br />
-        <input type="text" asp-for="Date" value="@DateTime.Now.ToShortDateString()"/>
+        <input type="date" asp-for="Date" />
         <span asp-validation-for="Date"></span>
     </p>
     <p>

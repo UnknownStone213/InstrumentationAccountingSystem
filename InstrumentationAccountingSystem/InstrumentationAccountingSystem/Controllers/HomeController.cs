@@ -15,7 +15,6 @@ using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using static Azure.Core.HttpHeader;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 
-
 namespace InstrumentationAccountingSystem.Controllers
 {
     public class HomeController : Controller
@@ -37,17 +36,24 @@ namespace InstrumentationAccountingSystem.Controllers
             _verificationService = verificationService;
         }
 
-        public IActionResult Index(string? verificationId)
+        public IActionResult Index(int? typeId, string? model, string? factoryNumber)
         {
-            ViewData["verificationId"] = verificationId;
-
+            ViewBag.TypeId = typeId;
+            ViewBag.Model = model;
+            ViewBag.FactoryNumber = factoryNumber;
             User? user = null;
             List<Instrumentation> instrumentations = new List<Instrumentation> { };
             List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
             List<Location> locations = new List<Location> { };
             List<Verification> verifications = new List<Verification> { };
 
-            instrumentations = _instrumentationService.GetAll();
+            foreach (var item in _instrumentationService.GetAll())
+            {
+                if (((typeId == null) || (typeId != null && item.TypeId == typeId)) && ((model == null) || (model != null && item.Model != null && item.Model.Equals(model, StringComparison.OrdinalIgnoreCase))))
+                {
+                    instrumentations.Add(item);
+                }
+            }
             types = _typeService.GetAll();
             locations = _locationService.GetAll();
             verifications = _verificationService.GetAll();
