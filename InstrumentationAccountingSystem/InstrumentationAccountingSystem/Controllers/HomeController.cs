@@ -36,27 +36,31 @@ namespace InstrumentationAccountingSystem.Controllers
             _verificationService = verificationService;
         }
 
-        public IActionResult Index(int? typeId, string? model, string? factoryNumber)
+        public IActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? AAA)
         {
             ViewBag.TypeId = typeId;
             ViewBag.Model = model;
             ViewBag.FactoryNumber = factoryNumber;
+            ViewBag.AAA = AAA;
+            ViewBag.LocationName = locationName;
+
             User? user = null;
             List<Instrumentation> instrumentations = new List<Instrumentation> { };
             List<InstrumentationAccountingSystem.Models.Type> types = new List<InstrumentationAccountingSystem.Models.Type> { };
             List<Location> locations = new List<Location> { };
             List<Verification> verifications = new List<Verification> { };
 
+
+            types = _typeService.GetAll();
+            locations = _locationService.GetAll();
+            verifications = _verificationService.GetAll();
             foreach (var item in _instrumentationService.GetAll())
             {
-                if (((typeId == null) || (typeId != null && item.TypeId == typeId)) && ((model == null) || (model != null && item.Model != null && item.Model.Equals(model, StringComparison.OrdinalIgnoreCase))))
+                if ((typeId == null || item.TypeId == typeId) && ((model == null) || (item.Model != null && item.Model.Equals(model, StringComparison.OrdinalIgnoreCase))) && ((factoryNumber == null) || (item.FactoryNumber != null && item.FactoryNumber.Equals(factoryNumber, StringComparison.OrdinalIgnoreCase))) && ((locationName == null) || (locations.FirstOrDefault(u => u.Id == item.LocationId).Name.Contains(locationName,StringComparison.OrdinalIgnoreCase))))
                 {
                     instrumentations.Add(item);
                 }
             }
-            types = _typeService.GetAll();
-            locations = _locationService.GetAll();
-            verifications = _verificationService.GetAll();
 
             //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth
             // if UserId != null

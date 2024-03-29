@@ -24,8 +24,6 @@ namespace InstrumentationAccountingSystem.Common.Dto
 
         public string? Connection { get; set; } // присоединение к процессу
 
-        public string? CheckLocation { get; set; } // место поверки
-
         public string? Comment { get; set; } // примечание
     }
 }

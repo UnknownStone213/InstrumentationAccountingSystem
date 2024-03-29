@@ -38,3 +38,6 @@
         <input type="submit" value="Изменить" />
     </p>
 </form>
+<form asp-controller="Home" asp-action="DeleteVerificationById" method="post" asp-route-id="@Model.Id">
+    <input type="submit" value="Удалить поверку" style="color:red"/>
+</form>

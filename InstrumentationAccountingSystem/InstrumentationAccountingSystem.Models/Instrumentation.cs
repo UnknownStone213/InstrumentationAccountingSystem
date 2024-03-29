@@ -36,9 +36,6 @@ namespace InstrumentationAccountingSystem.Models
         [StringLength(50)]
         public string? Connection { get; set; } // присоединение к процессу
 
-        [StringLength(50)]
-        public string? CheckLocation { get; set; } // место поверки
-
         [StringLength(250)]
         public string? Comment { get; set; } // примечание
     }

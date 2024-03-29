@@ -26,7 +26,7 @@
         <span asp-validation-for="Date"></span>
     </p>
     <p>
-        <label asp-for="InstrumentationId">прибор</label><br />
+        <label asp-for="InstrumentationId">Прибор</label><br />
         <select name="InstrumentationId" id="InstrumentationId">
             @foreach (var item in instrumentations)
             {
@@ -41,20 +41,15 @@
 </form>
 
 <table class="table">
-    <tr><th>Id</th><th>Дата</th><th>Id прибора</th></tr>
+    <tr><th>Id</th><th>Дата</th><th>Прибор</th></tr>
     @foreach (var item in verifications)
     {
         <tr>
             <td>@item.Id</td>
             <td>@item.Date</td>
-            <td>@instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Id</td>
+            <td>@instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Id. @instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Model</td>
             <td>
                 <a asp-action="EditVerification" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
-            </td>
-            <td>
-                <form asp-controller="Home" asp-action="DeleteVerificationById" method="post" asp-route-id="@item.Id">
-                    <input type="submit" value="Удалить" />
-                </form>
             </td>
         </tr>
     }

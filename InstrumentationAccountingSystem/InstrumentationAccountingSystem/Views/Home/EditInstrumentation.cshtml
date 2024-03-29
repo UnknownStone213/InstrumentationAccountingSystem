@@ -24,8 +24,8 @@
 }
 
 <h5>Изменить прибор</h5>
-<form asp-action="EditInstrumentation" asp-controller="home" asp-route-id="@Model" style="flex:none">
-    <p>
+<form asp-action="EditInstrumentation" asp-controller="home" asp-route-id="@Model" style="display:flex; flex-wrap:wrap; justify-content:space-between">
+    <p hidden>
         <label asp-for="Id">Id</label><br />
         <input type="text" asp-for="Id" value="@Model.Id" />
         <span asp-validation-for="Id"></span>
@@ -76,23 +76,21 @@
         <span asp-validation-for="Connection"></span>
     </p>
     <p>
-        <label asp-for="CheckLocation">Место поверки</label><br />
-        <input type="text" asp-for="CheckLocation" value="@Model.CheckLocation" />
-        <span asp-validation-for="CheckLocation"></span>
-    </p>
-    <p>
         <label asp-for="Comment">Примечание</label><br />
         <textarea type="text" asp-for="Comment" value="@Model.Comment" maxlength="250" rows="4" cols="70" ></textarea>
         <span asp-validation-for="Comment"></span>
     </p>
-    <p>
+    <p style="flex-basis:100%">
         <input type="submit" value="Изменить" />
     </p>
+</form>
+<form asp-controller="Home" asp-action="DeleteInstrumentationById" method="post" asp-route-id="@Model.Id">
+    <input type="submit" value="Удалить прибор" style="color:red"/>
 </form>
 
 <h4>Поверки:</h4>
 <table class="table">
-    <tr><th>Id</th><th>Место</th></tr>
+    <tr><th>Id</th><th>Дата поверки</th></tr>
     @foreach (var item in verifications)
     {
         if (item.InstrumentationId == Model.Id)
@@ -102,11 +100,6 @@
                 <td>@item.Date</td>
                 <td>
                     <a asp-action="EditVerification" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
-                </td>
-                <td>
-                    <form asp-controller="Home" asp-action="DeleteVerificationById" method="post" asp-route-id="@item.Id">
-                        <input type="submit" value="Удалить" />
-                    </form>
                 </td>
             </tr>
         }
