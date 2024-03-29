@@ -1,14 +1,37 @@
 ﻿@model InstrumentationAccountingSystem.Models.HomeModel
 
-@* @if (Model.User != null)
-{
-    <h2>Logged in as: @Model.User.Email, @Model.User.Role</h2>
+<style>
+    tr.True {
+        background-color: red;
+    }
+</style>
+
+@{
+    Dictionary<int, bool> checkDates = new Dictionary<int, bool> { };
+    foreach (var item in Model.Instrumentations)
+    {
+        try
+        {
+            DateTime sp = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString());
+            bool t = sp.Subtract(DateTime.Now.Date).Days <= 0;
+            if (t)
+                checkDates.Add(item.Id, true);
+            else
+                checkDates.Add(item.Id, false);
+        }
+        catch (Exception)
+        {
+            try
+            {
+                checkDates.Add(item.Id, true);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
 }
-else
-{
-    <h2>Not logged in.</h2>
-}
- *@
 
 <h5><a asp-action="CreateInstrumentation">Добавить прибор</a></h5>
 <h5><a asp-action="CreateType">Добавить тип прибора</a></h5>
@@ -30,7 +53,6 @@ else
     <input type="submit" value="Отменить фильтрацию" style="display:inline;" />
 </form>
 
-
 @* <form method="get">
     <label>AAA:</label>
     <input type="text" name="AAA" maxlength="50" size="20" />
@@ -41,7 +63,7 @@ else
     <tr ><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Дата последней поверки</th><th>Периодичность измерений</th><th>Дата очередной поверки</th><th>Присоединение к процессу</th><th>Примечание</th></tr>
     @foreach (var item in Model.Instrumentations)
     {
-        <tr class="coloredRows" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';">
+        <tr class="@checkDates[item.Id].ToString()" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';">
             <td>@item.Id</td>
             <td>@Model.Types.Single(u => u.Id == item.TypeId).Id. @Model.Types.Single(u => u.Id == item.TypeId).Name</td>
             <td>@item.Model</td>
@@ -53,18 +75,12 @@ else
             <td>@Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency) 
                 @if (@Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id) == null)
                 {
-                    <style>
-                        .coloredRows{
-                            background-color: yellow;
-                        }
-                    </style>
                     <p>!!!!!</p>
                 }
                 else
                 {
                     DateTime sp = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString());
                     <p>(@sp.Subtract(DateTime.Now.Date).Days дней)</p>
-                    //@Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency);
                 }</td>
             <td>@item.Connection</td>
             <td>@item.Comment</td>
@@ -72,6 +88,13 @@ else
     }
 </table>
 
+
+@*         DateTime sp = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString());
+@if (@sp.Subtract(DateTime.Now.Date).Days <= 0)
+{
+    //checkDate = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString()).Subtract(DateTime.Now.Date).Days <= 0;
+}
+ *@
 <script src="~/js/site.js"></script>
 
 @* <script>
