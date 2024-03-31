@@ -116,8 +116,9 @@ namespace InstrumentationAccountingSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult CreateVerification()
+        public IActionResult CreateVerification(int? instrumentationId)
         {
+            ViewBag.instrumentationId = instrumentationId;
             return View();
         }
 

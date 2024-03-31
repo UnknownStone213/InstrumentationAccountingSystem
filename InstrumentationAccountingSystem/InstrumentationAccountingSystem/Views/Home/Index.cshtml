@@ -1,11 +1,5 @@
 ﻿@model InstrumentationAccountingSystem.Models.HomeModel
 
-<style>
-    tr.True {
-        background-color: red;
-    }
-</style>
-
 @{
     Dictionary<int, bool> checkDates = new Dictionary<int, bool> { };
     foreach (var item in Model.Instrumentations)
@@ -33,14 +27,21 @@
     }
 }
 
-<h5><a asp-action="CreateInstrumentation">Добавить прибор</a></h5>
-<h5><a asp-action="CreateType">Добавить тип прибора</a></h5>
-<h5><a asp-action="CreateLocation">Добавить место установки</a></h5>
-<h5><a asp-action="CreateVerification">Добавить поверку прибора</a></h5>
+<div>
+    <a asp-action="CreateInstrumentation"><button>Добавить прибор</button></a>
+    <a asp-action="CreateType"><button>Добавить тип приборов</button></a>
+    <a asp-action="CreateLocation"><button>Добавить место установки</button></a>
+    <a asp-action="CreateVerification"><button>Добавить поверку прибора</button></a>
+</div>
 
 <form method="get" style="float:left; display:inline">
-    <label>ТипId:</label>
-    <input type="text" name="TypeId" maxlength="20" size="7" value="@ViewBag.TypeId" />
+    <label>Тип:</label>
+    <select name="TypeId" id="TypeId">
+        @foreach (var item in Model.Types)
+        {
+            <option value="@item.Id">@item.Id. @item.Name</option>
+        }
+    </select>
     <label>Модель:</label>
     <input type="text" name="Model" maxlength="50" size="20" value="@ViewBag.Model" />
     <label>Заводской номер:</label>
@@ -54,11 +55,12 @@
 </form>
 
 @* <form method="get">
-    <label>AAA:</label>
-    <input type="text" name="AAA" maxlength="50" size="20" />
+    <label>SORT:</label>
+    <input type="text" name="SORT" maxlength="50" size="20" />
 </form>
  *@
-<h4 style="clear:left; padding-top:20px;">@ViewBag.AAA ----------Приборы(@Model.Instrumentations.Count):</h4>
+
+<h4 style="clear:left; padding-top:20px;">Приборы(@Model.Instrumentations.Count):</h4>
 <table class="table" >
     <tr ><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Дата последней поверки</th><th>Периодичность измерений</th><th>Дата очередной поверки</th><th>Присоединение к процессу</th><th>Примечание</th></tr>
     @foreach (var item in Model.Instrumentations)
@@ -88,35 +90,28 @@
     }
 </table>
 
-
-@*         DateTime sp = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString());
-@if (@sp.Subtract(DateTime.Now.Date).Days <= 0)
-{
-    //checkDate = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString()).Subtract(DateTime.Now.Date).Days <= 0;
-}
- *@
-<script src="~/js/site.js"></script>
-
-@* <script>
-    function filter() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
+<style>
+    tr.True {
+        background-color: red;
     }
-</script> *@
+
+    a {
+        text-decoration: none;
+    }
+
+    table {
+        font-size:14px;
+        width:100%;
+        max-width:100%;
+        display:;
+        table-layout: fixed;
+    }
+
+    tr{
+
+    }
+
+    td{
+
+    }
+</style>

@@ -18,6 +18,8 @@
     }
 }
 @*  value="@DateTime.Now.ToShortDateString()" *@
+<h1 style="color:green">@ViewBag.instrumentationId fefefe</h1>
+
 <h5>Добавить поверку прибора</h5>
 <form asp-action="CreateVerification" asp-controller="home">
     <p>
@@ -30,7 +32,15 @@
         <select name="InstrumentationId" id="InstrumentationId">
             @foreach (var item in instrumentations)
             {
-                <option value="@item.Id">@item.Id. @item.Model</option>
+                if (ViewBag.instrumentationId != null && ViewBag.instrumentationId == item.Id)
+                {
+                    <option selected value="@item.Id">@item.Id. @item.Model</option>
+
+                }
+                else
+                {
+                    <option value="@item.Id">@item.Id. @item.Model</option>
+                }
             }
         </select>
         <span asp-validation-for="@VerificationService"></span>

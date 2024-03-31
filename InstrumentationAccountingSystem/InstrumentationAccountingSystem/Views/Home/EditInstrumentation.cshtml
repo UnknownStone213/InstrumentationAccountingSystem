@@ -88,7 +88,13 @@
     <input type="submit" value="Удалить прибор" style="color:red"/>
 </form>
 
-<h4>Поверки:<p>@* <a asp-action="CreateVerification" asp-controller="Home" asp-route-id="@Model.Id">Добавить поверку</a> *@</p></h4>
+<h5 style="display:flex">
+    Поверки:
+    <form asp-controller="Home" asp-action="CreateVerification" method="get">
+        <input hidden type="text" name="InstrumentationId" asp-for="@Model.Id" value="@Model.Id" />
+        <input type="submit" value="Добавить поверку данного прибора" />
+    </form>
+</h5>
 <table class="table">
     <tr><th>Id</th><th>Дата поверки</th></tr>
     @foreach (var item in verifications)
