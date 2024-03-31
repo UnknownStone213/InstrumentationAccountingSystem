@@ -15,6 +15,9 @@ string connection = builder.Configuration.GetConnectionString("DefaultConnection
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 builder.Services.AddControllersWithViews();
 //builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>)
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //    .AddCookie();
 builder.Services.AddTransient<IUserService, UserService>();

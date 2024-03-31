@@ -36,7 +36,7 @@ namespace InstrumentationAccountingSystem.Controllers
             _verificationService = verificationService;
         }
 
-        public IActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? AAA)
+        public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? AAA)
         {
             ViewBag.TypeId = typeId;
             ViewBag.Model = model;
@@ -78,13 +78,13 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(homeModel);
         }
 
-        public IActionResult CreateInstrumentation()
+        public ActionResult CreateInstrumentation()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateInstrumentation(InstrumentationCreateDto instrumentationCreateDto)
+        public ActionResult CreateInstrumentation(InstrumentationCreateDto instrumentationCreateDto)
         {
             if (ModelState.IsValid)
             {
@@ -95,35 +95,35 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(instrumentationCreateDto);
         }
 
-        public IActionResult EditInstrumentation(int id)
+        public ActionResult EditInstrumentation(int id)
         {
             Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
 
             return View(instrumentation);
         }
         [HttpPost]
-        public IActionResult EditInstrumentation(Instrumentation instrumentation)
+        public ActionResult EditInstrumentation(Instrumentation instrumentation)
         {
             _instrumentationService.Edit(instrumentation);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult DeleteInstrumentationById(int id)
+        public ActionResult DeleteInstrumentationById(int id)
         {
             Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
             _instrumentationService.DeleteInstrumentationById(id);
             return RedirectToAction("Index");
         }
 
-        public IActionResult CreateVerification(int? instrumentationId)
+        public ActionResult CreateVerification(int? instrumentationId)
         {
             ViewBag.instrumentationId = instrumentationId;
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateVerification(VerificationCreateDto verificationCreateDto)
+        public ActionResult CreateVerification(VerificationCreateDto verificationCreateDto)
         {
             if (ModelState.IsValid)
             {
@@ -134,33 +134,33 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(verificationCreateDto);
         }
 
-        public IActionResult EditVerification(int id)
+        public ActionResult EditVerification(int id)
         {
             Verification? verification = _verificationService.GetVerificationById(id);
 
             return View(verification);
         }
         [HttpPost]
-        public IActionResult EditVerification(Verification verification)
+        public ActionResult EditVerification(Verification verification)
         {
             _verificationService.EditVerification(verification);
             return RedirectToAction("CreateVerification");
         }
 
-        public IActionResult DeleteVerificationById(int id)
+        public ActionResult DeleteVerificationById(int id)
         {
             Verification? verification = _verificationService.GetVerificationById(id);
             _verificationService.DeleteVerificationById(id);
             return RedirectToAction("CreateVerification");
         }
 
-        public IActionResult CreateType()
+        public ActionResult CreateType()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateType(TypeCreateDto typeCreateDto)
+        public ActionResult CreateType(TypeCreateDto typeCreateDto)
         {
             if (ModelState.IsValid)
             {
@@ -171,21 +171,21 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(typeCreateDto);
         }
 
-        public IActionResult EditType(int id)
+        public ActionResult EditType(int id)
         {
             InstrumentationAccountingSystem.Models.Type? type = _typeService.GetTypeById(id);
 
             return View(type);
         }
         [HttpPost]
-        public IActionResult EditType(InstrumentationAccountingSystem.Models.Type type)
+        public ActionResult EditType(InstrumentationAccountingSystem.Models.Type type)
         {
             _typeService.EditType(type);
             return RedirectToAction("CreateType");
         }
 
         [HttpPost]
-        public IActionResult DeleteTypeById(int id)
+        public ActionResult DeleteTypeById(int id)
         {
             InstrumentationAccountingSystem.Models.Type? type = _typeService.GetTypeById(id);
             _typeService.DeleteTypeById(id);
@@ -193,12 +193,12 @@ namespace InstrumentationAccountingSystem.Controllers
         }
 
 
-        public IActionResult CreateLocation()
+        public ActionResult CreateLocation()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult CreateLocation(LocationCreateDto locationCreateDto)
+        public ActionResult CreateLocation(LocationCreateDto locationCreateDto)
         {
             if (ModelState.IsValid)
             {
@@ -209,21 +209,21 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(locationCreateDto);
         }
 
-        public IActionResult EditLocation(int id)
+        public ActionResult EditLocation(int id)
         {
             Location? location = _locationService.GetLocationById(id);
 
             return View(location);
         }
         [HttpPost]
-        public IActionResult EditLocation(Location location)
+        public ActionResult EditLocation(Location location)
         {
             _locationService.EditLocation(location);
             return RedirectToAction("CreateLocation");
         }
 
         [HttpPost]
-        public IActionResult DeleteLocationById(int id)
+        public ActionResult DeleteLocationById(int id)
         {
             Location location = _locationService.GetLocationById(id);
             _locationService.DeleteLocationById(id);
@@ -231,7 +231,7 @@ namespace InstrumentationAccountingSystem.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public ActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
