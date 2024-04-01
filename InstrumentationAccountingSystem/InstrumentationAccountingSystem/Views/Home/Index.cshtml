@@ -61,21 +61,24 @@
 <h4 style="clear:left; padding-top:20px;">Приборы(@Model.Instrumentations.Count):</h4>
 <table class="table table-hover table-sm" >
     <tr>
-    <th>Id</th>
-    <th><form method="get"><input class="tableHead" type="submit" name="sortName" value="Тип" ></form></th>
-    <th>Модель</th>
-    <th>Заводской номер</th>
-    <th>Место установки</th>
-    <th>Пределы измерений</th>
-    <th>Дата последней поверки</th>
-    <th>Периодичность измерений</th>
-    <th>Дата очередной поверки</th>
-    <th>Присоединение к процессу</th>
-    <th>Примечание</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Id" })';">Id</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Тип" })';">Тип</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Модель" })';">Модель</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Заводской номер" })';">Заводской номер</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Место установки" })';">Место установки</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Пределы измерений" })';">Пределы измерений</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Дата последней поверки" })';">Дата последней поверки</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Периодичность измерений" })';">Периодичность измерений</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Дата очередной поверки" })';">Дата очередной поверки</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Присоединение к процессу" })';">Присоединение к процессу</th>
+        <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Примечание" })';">Примечание</th>
+
+
+        <th><form method="get"><input class="tableHead" type="submit" name="sortName" value="Примечание"></form></th>
     </tr>
     @foreach (var item in Model.Instrumentations)
     {
-        <tr class="@string.Concat("check", checkDates[item.Id].ToString())" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';">
+        <tr class="@string.Concat("check", checkDates[item.Id].ToString())" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';" style="word-wrap:normal">
             <td>@item.Id</td>
             <td>@Model.Types.Single(u => u.Id == item.TypeId).Id. @Model.Types.Single(u => u.Id == item.TypeId).Name</td>
             <td>@item.Model</td>

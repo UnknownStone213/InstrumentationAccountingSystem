@@ -45,6 +45,7 @@ builder.Services.AddTransient<IInstrumentationService, InstrumentationService>()
 builder.Services.AddTransient<IVerificationService, VerificationService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
 var mappingConfig = new MapperConfiguration(mc =>
@@ -68,6 +69,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 //app.UseAuthentication();
 app.UseAuthorization();

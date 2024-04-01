@@ -14,6 +14,7 @@ using InstrumentationAccountingSystem.BusinessLogic.Services;
 using Microsoft.AspNetCore.Identity;
 using InstrumentationAccountingSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using static Azure.Core.HttpHeader;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
@@ -44,6 +45,24 @@ namespace InstrumentationAccountingSystem.Controllers
 
         public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? sortName)
         {
+            //HttpContext.Session.SetInt32("TypeId", typeId ?? 0);
+            //HttpContext.Session.SetString("Model", model ?? "");
+            if (sortName == HttpContext.Session.GetString("SortName"))
+            {
+                if (HttpContext.Session.GetString("sortCheck") == "0" || HttpContext.Session.GetString("sortCheck") == null)
+                {
+                    HttpContext.Session.SetString("sortCheck", "1");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("sortCheck", "0");
+                }
+            }
+            if (sortName != null)
+            {
+                HttpContext.Session.SetString("SortName", sortName);
+            }
+
             //User.
             //_userManager.
             ViewData["UserId"] = _userManager.GetUserId(User);
@@ -58,7 +77,6 @@ namespace InstrumentationAccountingSystem.Controllers
             List<Location> locations = new List<Location> { };
             List<Verification> verifications = new List<Verification> { };
 
-
             types = _typeService.GetAll();
             locations = _locationService.GetAll();
             verifications = _verificationService.GetAll();
@@ -67,6 +85,56 @@ namespace InstrumentationAccountingSystem.Controllers
                 if ((typeId == null || item.TypeId == typeId) && ((model == null) || (item.Model != null && item.Model.Equals(model, StringComparison.OrdinalIgnoreCase))) && ((factoryNumber == null) || (item.FactoryNumber != null && item.FactoryNumber.Equals(factoryNumber, StringComparison.OrdinalIgnoreCase))) && ((locationName == null) || (locations.FirstOrDefault(u => u.Id == item.LocationId).Name.Contains(locationName,StringComparison.OrdinalIgnoreCase))))
                 {
                     instrumentations.Add(item);
+                }
+            }
+
+            //sorting
+            foreach (var item in instrumentations)
+            {
+                switch (HttpContext.Session.GetString("SortName"))
+                {
+                    case "Id":
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.Id).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.Id).ToList();
+                        }
+                        break;
+                    case "Тип":
+                        instrumentations = instrumentations.OrderBy(u => u.TypeId).ToList();
+                        break;
+                    case "Модель":
+                        instrumentations = instrumentations.OrderBy(u => u.Model).ToList();
+                        break;
+                    case "Заводской номер":
+                        instrumentations = instrumentations.OrderBy(u => u.FactoryNumber).ToList();
+                        break;
+                    case "Место установки":
+                        instrumentations = instrumentations.OrderBy(u => u.LocationId).ToList();
+                        break;
+                    case "Пределы измерений":
+                        instrumentations = instrumentations.OrderBy(u => u.MeasurementLimits).ToList();
+                        break;
+                    case "Дата последней поверки":
+                        // 111111111111111111111111
+                        break;
+                    case "Периодичность измерений":
+                        instrumentations = instrumentations.OrderBy(u => u.Frequency).ToList();
+                        break;
+                    case "Дата очередной поверки":
+                        // 1111111111111111111111
+                        break;
+                    case "Присоединение к процессу":
+                        instrumentations = instrumentations.OrderBy(u => u.Connection).ToList();
+                        break;
+                    case "Примечание":
+                        instrumentations = instrumentations.OrderBy(u => u.Comment).ToList();
+                        break;
+                    default:
+                        break;
                 }
             }
 
