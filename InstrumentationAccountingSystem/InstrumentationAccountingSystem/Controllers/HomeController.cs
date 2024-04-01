@@ -156,22 +156,52 @@ namespace InstrumentationAccountingSystem.Controllers
 
                         if (HttpContext.Session.GetString("sortCheck") == "1")
                         {
-                            List<Verification> tempVer = verifications.OrderBy(u => u.Date).ToList();
-                            //verifications = tempVer;
-                            foreach (var item2 in tempVer)
+                            List<Verification> tempVerifications = verifications.OrderBy(u => u.Date).ToList();
+                            for (int i = 0; i < tempVerifications.Count; i++)
                             {
-                                instrumentations = instrumentations.OrderBy(u => u.Id = item2.InstrumentationId).ToList();
+                                if (i < tempVerifications.Count)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    foreach (Verification verif in tempVerifications)
+                                    {
+                                        if (verif.Date != _verificationService.GetLastVerificationByInstrumentationId(verif.InstrumentationId).Date)
+                                        {
+                                            tempVerifications.Remove(verif);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            //foreach (Verification verif in tempVerifications) 
+                            //{
+                            //    if (verif.Date != _verificationService.GetLastVerificationByInstrumentationId(verif.InstrumentationId).Date)
+                            //    {
+                            //        tempVerifications.Remove(verif);
+                            //        break;
+                            //    }
+                            //}
+
+                            // add verifications or google OdrerBy if null
+
+                            foreach (var item2 in tempVerifications)
+                            {
+                                //instrumentations = instrumentations.OrderBy(tempVerifications.Find(o => o.InstrumentationId == u.Id).Date).ToList();
+
+                                //instrumentations = instrumentations.OrderBy(u => tempVerifications.Find(o => o.InstrumentationId == u.Id).Date ?? DateOnly.FromDateTime(DateTime.MinValue)).ToList();
                             }
                         }
                         else
                         {
-                            List<Verification> tempVer = verifications.OrderByDescending(u => u.Date).ToList();
+                            //List<Verification> tempVer = verifications.OrderByDescending(u => u.Date).ToList();
 
                             //verifications = tempVer;
-                            foreach (var item2 in tempVer)
-                            {
-                                instrumentations = instrumentations.OrderBy(u => u.Id = item2.InstrumentationId).ToList();
-                            }
+                            //foreach (var item2 in tempVer)
+                            //{
+                            //    instrumentations = instrumentations.OrderBy(u => u.Id = item2.InstrumentationId).ToList();
+                            //}
                         }
 
 

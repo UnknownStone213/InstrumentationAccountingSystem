@@ -19,5 +19,7 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Interfaces
         void DeleteVerificationById(int id);
 
         Verification GetVerificationById(int id);
+
+        Verification GetLastVerificationByInstrumentationId(int id);
     }
 }
