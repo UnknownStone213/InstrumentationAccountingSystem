@@ -25,6 +25,31 @@
             }
         }
     }
+
+    Dictionary<int, bool> check2Dates = new Dictionary<int, bool> { };
+    foreach (var item in Model.Instrumentations)
+    {
+        try
+        {
+            DateTime sp = DateTime.Parse(Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date.AddMonths(item.Frequency).ToString());
+            bool t = sp.Subtract(DateTime.Now.Date).Days <= 30;
+            if (t)
+                check2Dates.Add(item.Id, true);
+            else
+                check2Dates.Add(item.Id, false);
+        }
+        catch (Exception)
+        {
+            try
+            {
+                check2Dates.Add(item.Id, true);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
 }
 
 <div>
@@ -72,13 +97,10 @@
         <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Дата очередной поверки" })';">Дата очередной поверки</th>
         <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Присоединение к процессу" })';">Присоединение к процессу</th>
         <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Примечание" })';">Примечание</th>
-
-
-        <th><form method="get"><input class="tableHead" type="submit" name="sortName" value="Примечание"></form></th>
     </tr>
     @foreach (var item in Model.Instrumentations)
     {
-        <tr class="@string.Concat("check", checkDates[item.Id].ToString())" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';" style="word-wrap:normal">
+        <tr class="@string.Concat("check", checkDates[item.Id].ToString()) @string.Concat("check2", check2Dates[item.Id].ToString())" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';" style="word-wrap:normal">
             <td>@item.Id</td>
             <td>@Model.Types.Single(u => u.Id == item.TypeId).Id. @Model.Types.Single(u => u.Id == item.TypeId).Name</td>
             <td>@item.Model</td>
@@ -104,6 +126,10 @@
 </table>
 
 <style>
+    tr.check2True {
+        background-color: yellow;
+    }
+
     tr.checkTrue {
         background-color: red;
     }

@@ -97,6 +97,9 @@
 </h5>
 <table class="table">
     <tr><th>Id</th><th>Дата поверки</th></tr>
+    @{
+        verifications = verifications.OrderByDescending(u => u.Date).ToList();
+    }
     @foreach (var item in verifications)
     {
         if (item.InstrumentationId == Model.Id)
@@ -112,7 +115,7 @@
     }
 </table>
 
-<style scoped type="text/css">
+<style type="text/css">
     input{
         display: inline;
     }

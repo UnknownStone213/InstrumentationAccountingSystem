@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using InstrumentationAccountingSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using static Azure.Core.HttpHeader;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
@@ -47,8 +48,9 @@ namespace InstrumentationAccountingSystem.Controllers
         {
             //HttpContext.Session.SetInt32("TypeId", typeId ?? 0);
             //HttpContext.Session.SetString("Model", model ?? "");
-            if (sortName == HttpContext.Session.GetString("SortName"))
+            if (sortName != null)
             {
+                HttpContext.Session.SetString("SortName", sortName);
                 if (HttpContext.Session.GetString("sortCheck") == "0" || HttpContext.Session.GetString("sortCheck") == null)
                 {
                     HttpContext.Session.SetString("sortCheck", "1");
@@ -57,10 +59,6 @@ namespace InstrumentationAccountingSystem.Controllers
                 {
                     HttpContext.Session.SetString("sortCheck", "0");
                 }
-            }
-            if (sortName != null)
-            {
-                HttpContext.Session.SetString("SortName", sortName);
             }
 
             //User.
@@ -104,34 +102,113 @@ namespace InstrumentationAccountingSystem.Controllers
                         }
                         break;
                     case "Тип":
-                        instrumentations = instrumentations.OrderBy(u => u.TypeId).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.TypeId).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.TypeId).ToList();
+                        }
                         break;
                     case "Модель":
-                        instrumentations = instrumentations.OrderBy(u => u.Model).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.Model).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.Model).ToList();
+                        }
                         break;
                     case "Заводской номер":
-                        instrumentations = instrumentations.OrderBy(u => u.FactoryNumber).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.FactoryNumber).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.FactoryNumber).ToList();
+                        }
                         break;
                     case "Место установки":
-                        instrumentations = instrumentations.OrderBy(u => u.LocationId).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.LocationId).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.LocationId).ToList();
+                        }
                         break;
                     case "Пределы измерений":
-                        instrumentations = instrumentations.OrderBy(u => u.MeasurementLimits).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.MeasurementLimits).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.MeasurementLimits).ToList();
+                        }
                         break;
                     case "Дата последней поверки":
                         // 111111111111111111111111
+
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            List<Verification> tempVer = verifications.OrderBy(u => u.Date).ToList();
+                            //verifications = tempVer;
+                            foreach (var item2 in tempVer)
+                            {
+                                instrumentations = instrumentations.OrderBy(u => u.Id = item2.InstrumentationId).ToList();
+                            }
+                        }
+                        else
+                        {
+                            List<Verification> tempVer = verifications.OrderByDescending(u => u.Date).ToList();
+
+                            //verifications = tempVer;
+                            foreach (var item2 in tempVer)
+                            {
+                                instrumentations = instrumentations.OrderBy(u => u.Id = item2.InstrumentationId).ToList();
+                            }
+                        }
+
+
+                        // vev
                         break;
                     case "Периодичность измерений":
-                        instrumentations = instrumentations.OrderBy(u => u.Frequency).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.Frequency).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.Frequency).ToList();
+                        }
                         break;
                     case "Дата очередной поверки":
                         // 1111111111111111111111
                         break;
                     case "Присоединение к процессу":
-                        instrumentations = instrumentations.OrderBy(u => u.Connection).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.Connection).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.Connection).ToList();
+                        }
                         break;
                     case "Примечание":
-                        instrumentations = instrumentations.OrderBy(u => u.Comment).ToList();
+                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        {
+                            instrumentations = instrumentations.OrderBy(u => u.Comment).ToList();
+                        }
+                        else
+                        {
+                            instrumentations = instrumentations.OrderByDescending(u => u.Comment).ToList();
+                        }
                         break;
                     default:
                         break;
@@ -221,7 +298,8 @@ namespace InstrumentationAccountingSystem.Controllers
         public ActionResult EditVerification(Verification verification)
         {
             _verificationService.EditVerification(verification);
-            return RedirectToAction("EditInstrumentation", verification.InstrumentationId);
+            //return RedirectToAction("EditInstrumentation", verification.InstrumentationId);
+            return RedirectToAction("Index");
         }
 
         public ActionResult DeleteVerificationById(int id)
