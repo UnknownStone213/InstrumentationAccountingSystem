@@ -30,10 +30,9 @@
         <select name="InstrumentationId" id="InstrumentationId">
             @foreach (var item in instrumentations)
             {
-                if (ViewBag.instrumentationId != null && ViewBag.instrumentationId == item.Id)
+                if (ViewData["InstrumentationId"] != null && (int)ViewData["InstrumentationId"] == item.Id)
                 {
                     <option selected value="@item.Id">@item.Id. @item.Model</option>
-
                 }
                 else
                 {
@@ -52,13 +51,16 @@
     <tr><th>Id</th><th>Дата</th><th>Прибор</th></tr>
     @foreach (var item in verifications)
     {
-        <tr>
-            <td>@item.Id</td>
-            <td>@item.Date</td>
-            <td>@instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Id. @instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Model</td>
-            <td>
-                <a asp-action="EditVerification" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
-            </td>
-        </tr>
+        if (ViewData["InstrumentationId"] != null && (int)ViewData["InstrumentationId"] == item.InstrumentationId)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Date</td>
+                <td>@instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Id. @instrumentations.FirstOrDefault(u => u.Id == item.InstrumentationId).Model</td>
+                <td>
+                    <a asp-action="EditVerification" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
+                </td>
+            </tr>
+        }
     }
 </table>

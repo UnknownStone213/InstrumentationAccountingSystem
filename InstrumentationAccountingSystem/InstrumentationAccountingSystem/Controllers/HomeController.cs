@@ -42,8 +42,10 @@ namespace InstrumentationAccountingSystem.Controllers
             _userManager = userManager;
         }
 
-        public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? AAA)
+        public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? sortName)
         {
+            //User.
+            //_userManager.
             ViewData["UserId"] = _userManager.GetUserId(User);
             ViewData["TypeId"] = typeId;
             ViewData["Model"] = model;
@@ -81,6 +83,7 @@ namespace InstrumentationAccountingSystem.Controllers
                 Locations = locations,
                 Verifications = verifications
             };
+            Response.Cookies.Append("", "");
             return View(homeModel);
         }
 
@@ -124,7 +127,7 @@ namespace InstrumentationAccountingSystem.Controllers
 
         public ActionResult CreateVerification(int? instrumentationId)
         {
-            ViewBag.instrumentationId = instrumentationId;
+            ViewData["InstrumentationId"] = instrumentationId;
             return View();
         }
 
@@ -150,7 +153,7 @@ namespace InstrumentationAccountingSystem.Controllers
         public ActionResult EditVerification(Verification verification)
         {
             _verificationService.EditVerification(verification);
-            return RedirectToAction("CreateVerification");
+            return RedirectToAction("EditInstrumentation", verification.InstrumentationId);
         }
 
         public ActionResult DeleteVerificationById(int id)

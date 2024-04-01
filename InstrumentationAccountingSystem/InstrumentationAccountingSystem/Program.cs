@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServe
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connection2));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<AuthDbContext>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -43,6 +44,8 @@ builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IInstrumentationService, InstrumentationService>();
 builder.Services.AddTransient<IVerificationService, VerificationService>();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+builder.Services.AddSession();
 
 var mappingConfig = new MapperConfiguration(mc =>
 {

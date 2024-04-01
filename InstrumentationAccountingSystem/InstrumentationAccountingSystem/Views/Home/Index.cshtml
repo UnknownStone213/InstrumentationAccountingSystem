@@ -33,8 +33,7 @@
     <a asp-action="CreateLocation"><button>Добавить место установки</button></a>
     <a asp-action="CreateVerification"><button>Добавить поверку прибора</button></a>
 </div>
-
-<form method="get" style="float:left; display:inline">
+<form method="get" class="container-fluid">
     <label>Тип:</label>
     <select name="TypeId" id="TypeId">
         @foreach (var item in Model.Types)
@@ -43,29 +42,40 @@
         }
     </select>
     <label>Модель:</label>
-    <input type="text" name="Model" maxlength="50" size="20" value="@ViewData["Model"]"/>
+    <input type="text" name="Model" maxlength="50" size="20" value="@ViewData["Model"]" />
     <label>Заводской номер:</label>
     <input type="text" name="FactoryNumber" maxlength="50" size="10" value="@ViewData["FactoryNumber"]" />
     <label>Место установки:</label>
     <input type="text" name="LocationName" maxlength="50" size="30" value="@ViewData["LocationName"]" />
     <input type="submit" value="Фильтрация" style="display:inline;" />
 </form>
-<form method="get" style="float:left; margin-left:5px; " >
-    <input type="submit" value="Отменить фильтрацию" style="display:inline;" />
+<form method="get" class="container-fluid">
+    <input type="submit" value="Отменить фильтрацию" />
 </form>
-
-@* <form method="get">
-    <label>SORT:</label>
-    <input type="text" name="SORT" maxlength="50" size="20" />
+<form method="get" class="container-fluid" >
+    <label>Сортировать:</label>
+    <input type="text" name="sortName" maxlength="50" size="20" />
+    <input type="submit" value="Сортировать" />
 </form>
- *@
 
 <h4 style="clear:left; padding-top:20px;">Приборы(@Model.Instrumentations.Count):</h4>
-<table class="table" >
-    <tr ><th>Id</th><th>Тип</th><th>Модель</th><th>Заводской номер</th><th>Место установки</th><th>Пределы измерений</th><th>Дата последней поверки</th><th>Периодичность измерений</th><th>Дата очередной поверки</th><th>Присоединение к процессу</th><th>Примечание</th></tr>
+<table class="table table-hover table-sm" >
+    <tr>
+    <th>Id</th>
+    <th><form method="get"><input class="tableHead" type="submit" name="sortName" value="Тип" ></form></th>
+    <th>Модель</th>
+    <th>Заводской номер</th>
+    <th>Место установки</th>
+    <th>Пределы измерений</th>
+    <th>Дата последней поверки</th>
+    <th>Периодичность измерений</th>
+    <th>Дата очередной поверки</th>
+    <th>Присоединение к процессу</th>
+    <th>Примечание</th>
+    </tr>
     @foreach (var item in Model.Instrumentations)
     {
-        <tr class="@checkDates[item.Id].ToString()" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';">
+        <tr class="@string.Concat("check", checkDates[item.Id].ToString())" onclick="location.href = '@Url.Action("EditInstrumentation", "Home", item)';">
             <td>@item.Id</td>
             <td>@Model.Types.Single(u => u.Id == item.TypeId).Id. @Model.Types.Single(u => u.Id == item.TypeId).Name</td>
             <td>@item.Model</td>
@@ -91,7 +101,7 @@
 </table>
 
 <style>
-    tr.True {
+    tr.checkTrue {
         background-color: red;
     }
 
@@ -99,19 +109,8 @@
         text-decoration: none;
     }
 
-    table {
-        font-size:14px;
-        width:100%;
-        max-width:100%;
-        display:;
-        table-layout: fixed;
-    }
-
-    tr{
-
-    }
-
-    td{
-
+    .tableHead {
+        background: none;
+        border: none;
     }
 </style>
