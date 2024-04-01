@@ -43,11 +43,11 @@
         }
     </select>
     <label>Модель:</label>
-    <input type="text" name="Model" maxlength="50" size="20" value="@ViewBag.Model" />
+    <input type="text" name="Model" maxlength="50" size="20" value="@ViewData["Model"]"/>
     <label>Заводской номер:</label>
-    <input type="text" name="FactoryNumber" maxlength="50" size="10" value="@ViewBag.FactoryNumber" />
+    <input type="text" name="FactoryNumber" maxlength="50" size="10" value="@ViewData["FactoryNumber"]" />
     <label>Место установки:</label>
-    <input type="text" name="LocationName" maxlength="50" size="30" value="@ViewBag.LocationName" />
+    <input type="text" name="LocationName" maxlength="50" size="30" value="@ViewData["LocationName"]" />
     <input type="submit" value="Фильтрация" style="display:inline;" />
 </form>
 <form method="get" style="float:left; margin-left:5px; " >

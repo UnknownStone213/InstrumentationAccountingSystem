@@ -18,7 +18,7 @@
 }
 
 <h5>Добавить прибор</h5>
-<form asp-action="CreateInstrumentation" asp-controller="home">
+<form asp-action="CreateInstrumentation" asp-controller="home" style="display:flex; flex-wrap:wrap; justify-content:space-between;">
     <p>
         <label asp-for="TypeId">Тип</label><br />
         <select name="TypeId" id="TypeId">
@@ -69,7 +69,7 @@
         <textarea type="text" asp-for="Comment" maxlength="250" rows="4" cols="70"></textarea>
         <span asp-validation-for="Comment"></span>
     </p>
-    <p>
+    <p style="flex-basis:100%">
         <input type="submit" value="Добавить" />
     </p>
 </form>

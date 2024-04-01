@@ -5,19 +5,36 @@ using InstrumentationAccountingSystem.Mapper;
 using InstrumentationAccountingSystem.BusinessLogic.Interfaces;
 using InstrumentationAccountingSystem.BusinessLogic.Services;
 using AutoMapper;
+using InstrumentationAccountingSystem.Data;
+using Microsoft.AspNetCore.Identity;
+using InstrumentationAccountingSystem.Areas.Identity.Data;
 
 //using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string connection2 = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new Exception();
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connection2));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+builder.Services.Configure<IdentityOptions>(options => 
+{
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredUniqueChars = 0;
+});
+
 //builder.Services.AddAuthorization();
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthorization(options =>)
+//builder.Services.AddAuthorization();
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //    .AddCookie();
 builder.Services.AddTransient<IUserService, UserService>();
@@ -55,5 +72,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();

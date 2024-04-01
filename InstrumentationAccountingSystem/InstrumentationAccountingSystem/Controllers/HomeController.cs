@@ -11,12 +11,16 @@ using System.Diagnostics;
 //using System.Runtime.CompilerServices;
 using InstrumentationAccountingSystem.Common.Dto;
 using InstrumentationAccountingSystem.BusinessLogic.Services;
+using Microsoft.AspNetCore.Identity;
+using InstrumentationAccountingSystem.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 //using static Azure.Core.HttpHeader;
 //using InstrumentationAccountingSystem.BusinessLogic.Services;
 
 namespace InstrumentationAccountingSystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -25,8 +29,9 @@ namespace InstrumentationAccountingSystem.Controllers
         private readonly ILocationService _locationService;
         private readonly IInstrumentationService _instrumentationService;
         private readonly IVerificationService _verificationService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService, ILocationService locationService, IInstrumentationService instrumentationService, IVerificationService verificationService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, ITypeService typeService, ILocationService locationService, IInstrumentationService instrumentationService, IVerificationService verificationService, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _userService = userService;
@@ -34,15 +39,16 @@ namespace InstrumentationAccountingSystem.Controllers
             _locationService = locationService;
             _instrumentationService = instrumentationService;
             _verificationService = verificationService;
+            _userManager = userManager;
         }
 
         public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? AAA)
         {
-            ViewBag.TypeId = typeId;
-            ViewBag.Model = model;
-            ViewBag.FactoryNumber = factoryNumber;
-            ViewBag.AAA = AAA;
-            ViewBag.LocationName = locationName;
+            ViewData["UserId"] = _userManager.GetUserId(User);
+            ViewData["TypeId"] = typeId;
+            ViewData["Model"] = model;
+            ViewData["FactoryNumber"] = factoryNumber;
+            ViewData["LocationName"] = locationName;
 
             User? user = null;
             List<Instrumentation> instrumentations = new List<Instrumentation> { };
