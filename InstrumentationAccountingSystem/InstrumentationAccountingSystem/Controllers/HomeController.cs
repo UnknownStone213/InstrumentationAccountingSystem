@@ -2,23 +2,10 @@ using InstrumentationAccountingSystem.BusinessLogic.Interfaces;
 using InstrumentationAccountingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-//using Microsoft.EntityFrameworkCore;
-//using Microsoft.AspNetCore.Authentication.Cookies;
-//using Microsoft.AspNetCore.Authentication;
-//using Microsoft.AspNetCore.Authorization;
-//using System.Security.Claims;
-//using Microsoft.IdentityModel.Tokens;
-//using System.Runtime.CompilerServices;
 using InstrumentationAccountingSystem.Common.Dto;
-using InstrumentationAccountingSystem.BusinessLogic.Services;
 using Microsoft.AspNetCore.Identity;
 using InstrumentationAccountingSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-//using InstrumentationAccountingSystem.BusinessLogic.Services;
-//using static Azure.Core.HttpHeader;
-//using InstrumentationAccountingSystem.BusinessLogic.Services;
 
 namespace InstrumentationAccountingSystem.Controllers
 {
