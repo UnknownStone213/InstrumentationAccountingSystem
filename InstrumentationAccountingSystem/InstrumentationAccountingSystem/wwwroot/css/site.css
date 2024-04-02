@@ -21,6 +21,10 @@ body {
   margin-bottom: 60px;
 }
 
+table {
+    font-size: small;
+}
+
 /*.container {
     margin: 0;
 }*/
