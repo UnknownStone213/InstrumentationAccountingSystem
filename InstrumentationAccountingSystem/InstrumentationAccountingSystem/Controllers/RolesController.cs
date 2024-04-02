@@ -23,6 +23,7 @@ namespace InstrumentationAccountingSystem.Controllers
         public IActionResult Index() => View(_roleManager.Roles.ToList());
 
         public IActionResult Create() => View();
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
@@ -44,6 +45,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(name);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -76,6 +78,7 @@ namespace InstrumentationAccountingSystem.Controllers
 
             return NotFound();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {

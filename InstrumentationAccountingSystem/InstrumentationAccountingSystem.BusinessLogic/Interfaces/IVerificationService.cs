@@ -20,6 +20,6 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Interfaces
 
         Verification GetVerificationById(int id);
 
-        Verification GetLastVerificationByInstrumentationId(int id);
+        Verification? GetLastVerificationByInstrumentationId(int id);
     }
 }

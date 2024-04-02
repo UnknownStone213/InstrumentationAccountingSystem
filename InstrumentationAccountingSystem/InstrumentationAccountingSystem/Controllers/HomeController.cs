@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace InstrumentationAccountingSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Member")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -31,10 +31,9 @@ namespace InstrumentationAccountingSystem.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? sortName)
         {
-            //HttpContext.Session.SetInt32("TypeId", typeId ?? 0);
-            //HttpContext.Session.SetString("Model", model ?? "");
             if (sortName != null)
             {
                 HttpContext.Session.SetString("SortName", sortName);
@@ -48,8 +47,6 @@ namespace InstrumentationAccountingSystem.Controllers
                 }
             }
 
-            //User.
-            //_userManager.
             ViewData["UserId"] = _userManager.GetUserId(User);
             ViewData["TypeId"] = typeId;
             ViewData["Model"] = model;
@@ -74,162 +71,147 @@ namespace InstrumentationAccountingSystem.Controllers
             }
 
             //sorting
-            foreach (var item in instrumentations)
+            switch (HttpContext.Session.GetString("SortName"))
             {
-                switch (HttpContext.Session.GetString("SortName"))
-                {
-                    case "Id":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                case "Id":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.Id).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.Id).ToList();
+                    }
+                    break;
+                case "Тип":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.TypeId).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.TypeId).ToList();
+                    }
+                    break;
+                case "Модель":
+                    instrumentations = instrumentations.OrderBy(u => u.Model).ToList();
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.Model).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.Model).ToList();
+                    }
+                    break;
+                case "Заводской номер":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.FactoryNumber).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.FactoryNumber).ToList();
+                    }
+                    break;
+                case "Место установки":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.LocationId).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.LocationId).ToList();
+                    }
+                    break;
+                case "Пределы измерений":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.MeasurementLimits).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.MeasurementLimits).ToList();
+                    }
+                    break;
+                case "Дата последней поверки":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        Dictionary<int, DateTime> lllastVerifications = new Dictionary<int, DateTime>();
+                        foreach (var item2 in instrumentations)
                         {
-                            instrumentations = instrumentations.OrderBy(u => u.Id).ToList();
+                            lllastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
                         }
-                        else
+                        lllastVerifications = lllastVerifications.OrderBy(u => u.Value).ToDictionary();
+                        List<int> sortIds = new List<int>();
+                        foreach (var item2 in lllastVerifications)
                         {
-                            instrumentations = instrumentations.OrderByDescending(u => u.Id).ToList();
+                            sortIds.Add(item2.Key);
                         }
-                        break;
-                    case "Тип":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        List<Instrumentation> instrumentations2 = new List<Instrumentation>();
+                        foreach (var item2 in sortIds)
                         {
-                            instrumentations = instrumentations.OrderBy(u => u.TypeId).ToList();
+                            instrumentations2.Add(instrumentations.First(o => item2 == o.Id));
                         }
-                        else
+                        instrumentations = instrumentations2;
+                    }
+                    else
+                    {
+                        Dictionary<int, DateTime> lllastVerifications = new Dictionary<int, DateTime>();
+                        foreach (var item2 in instrumentations)
                         {
-                            instrumentations = instrumentations.OrderByDescending(u => u.TypeId).ToList();
+                            lllastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
                         }
-                        break;
-                    case "Модель":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
+                        lllastVerifications = lllastVerifications.OrderByDescending(u => u.Value).ToDictionary();
+                        List<int> sortIds = new List<int>();
+                        foreach (var item2 in lllastVerifications)
                         {
-                            instrumentations = instrumentations.OrderBy(u => u.Model).ToList();
+                            sortIds.Add(item2.Key);
                         }
-                        else
+                        List<Instrumentation> instrumentations2 = new List<Instrumentation>();
+                        foreach (var item2 in sortIds)
                         {
-                            instrumentations = instrumentations.OrderByDescending(u => u.Model).ToList();
+                            instrumentations2.Add(instrumentations.First(o => item2 == o.Id));
                         }
-                        break;
-                    case "Заводской номер":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            instrumentations = instrumentations.OrderBy(u => u.FactoryNumber).ToList();
-                        }
-                        else
-                        {
-                            instrumentations = instrumentations.OrderByDescending(u => u.FactoryNumber).ToList();
-                        }
-                        break;
-                    case "Место установки":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            instrumentations = instrumentations.OrderBy(u => u.LocationId).ToList();
-                        }
-                        else
-                        {
-                            instrumentations = instrumentations.OrderByDescending(u => u.LocationId).ToList();
-                        }
-                        break;
-                    case "Пределы измерений":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            instrumentations = instrumentations.OrderBy(u => u.MeasurementLimits).ToList();
-                        }
-                        else
-                        {
-                            instrumentations = instrumentations.OrderByDescending(u => u.MeasurementLimits).ToList();
-                        }
-                        break;
-                    case "Дата последней поверки":
-                        // 111111111111111111111111
+                        instrumentations = instrumentations2;
 
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            List<Verification> tempVerifications = verifications.OrderBy(u => u.Date).ToList();
-                            for (int i = 0; i < tempVerifications.Count; i++)
-                            {
-                                if (i < tempVerifications.Count)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    foreach (Verification verif in tempVerifications)
-                                    {
-                                        if (verif.Date != _verificationService.GetLastVerificationByInstrumentationId(verif.InstrumentationId).Date)
-                                        {
-                                            tempVerifications.Remove(verif);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            //foreach (Verification verif in tempVerifications) 
-                            //{
-                            //    if (verif.Date != _verificationService.GetLastVerificationByInstrumentationId(verif.InstrumentationId).Date)
-                            //    {
-                            //        tempVerifications.Remove(verif);
-                            //        break;
-                            //    }
-                            //}
-
-                            // add verifications or google OdrerBy if null
-
-                            foreach (var item2 in tempVerifications)
-                            {
-                                //instrumentations = instrumentations.OrderBy(tempVerifications.Find(o => o.InstrumentationId == u.Id).Date).ToList();
-
-                                //instrumentations = instrumentations.OrderBy(u => tempVerifications.Find(o => o.InstrumentationId == u.Id).Date ?? DateOnly.FromDateTime(DateTime.MinValue)).ToList();
-                            }
-                        }
-                        else
-                        {
-                            //List<Verification> tempVer = verifications.OrderByDescending(u => u.Date).ToList();
-
-                            //verifications = tempVer;
-                            //foreach (var item2 in tempVer)
-                            //{
-                            //    instrumentations = instrumentations.OrderBy(u => u.Id = item2.InstrumentationId).ToList();
-                            //}
-                        }
-
-
-                        // vev
-                        break;
-                    case "Периодичность измерений":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            instrumentations = instrumentations.OrderBy(u => u.Frequency).ToList();
-                        }
-                        else
-                        {
-                            instrumentations = instrumentations.OrderByDescending(u => u.Frequency).ToList();
-                        }
-                        break;
-                    case "Дата очередной поверки":
-                        // 1111111111111111111111
-                        break;
-                    case "Присоединение к процессу":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            instrumentations = instrumentations.OrderBy(u => u.Connection).ToList();
-                        }
-                        else
-                        {
-                            instrumentations = instrumentations.OrderByDescending(u => u.Connection).ToList();
-                        }
-                        break;
-                    case "Примечание":
-                        if (HttpContext.Session.GetString("sortCheck") == "1")
-                        {
-                            instrumentations = instrumentations.OrderBy(u => u.Comment).ToList();
-                        }
-                        else
-                        {
-                            instrumentations = instrumentations.OrderByDescending(u => u.Comment).ToList();
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                case "Периодичность измерений":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.Frequency).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.Frequency).ToList();
+                    }
+                    break;
+                case "Дата очередной поверки":
+                    // 1111111111111111111111
+                    break;
+                case "Присоединение к процессу":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.Connection).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.Connection).ToList();
+                    }
+                    break;
+                case "Примечание":
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        instrumentations = instrumentations.OrderBy(u => u.Comment).ToList();
+                    }
+                    else
+                    {
+                        instrumentations = instrumentations.OrderByDescending(u => u.Comment).ToList();
+                    }
+                    break;
+                default:
+                    break;
             }
 
             //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth

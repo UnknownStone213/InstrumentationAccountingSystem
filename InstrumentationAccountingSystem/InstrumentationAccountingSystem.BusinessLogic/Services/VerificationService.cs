@@ -57,20 +57,12 @@ namespace InstrumentationAccountingSystem.BusinessLogic.Services
             return verification;
         }
 
-        public Verification GetLastVerificationByInstrumentationId(int id) 
+        public Verification? GetLastVerificationByInstrumentationId(int id) 
         {
             var verifications = _applicationContext.Verifications.ToList();
-            var verifs = verifications.FindAll(u => u.InstrumentationId == id);
-            Verification ver = verifs[0];
-            foreach (var verif in verifs) 
-            {
-                if (ver.Date < verif.Date)
-                {
-                    ver = verif;
-                }
-            }
+            verifications = verifications.OrderByDescending(u => u.Date).ToList();
 
-            return ver;
+            return verifications.FirstOrDefault(u => u.InstrumentationId == id);
         }
     }
 }
