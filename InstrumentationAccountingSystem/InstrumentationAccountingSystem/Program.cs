@@ -9,8 +9,6 @@ using InstrumentationAccountingSystem.Data;
 using Microsoft.AspNetCore.Identity;
 using InstrumentationAccountingSystem.Areas.Identity.Data;
 
-//using Microsoft.AspNetCore.Authentication.Cookies;
-
 var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -34,12 +32,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredUniqueChars = 0;
 });
-
-//builder.Services.AddAuthorization();
-
-//builder.Services.AddAuthorization();
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITypeService, TypeService>();
 builder.Services.AddTransient<ILocationService, LocationService>();

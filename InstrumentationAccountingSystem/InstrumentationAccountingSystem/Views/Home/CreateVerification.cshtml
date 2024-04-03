@@ -48,7 +48,7 @@
 </form>
 
 <table class="table">
-    <tr><th>Id</th><th>Дата</th><th>Прибор</th></tr>
+    <tr><th>Id</th><th>Дата</th><th>СИ</th></tr>
     @foreach (var item in verifications)
     {
         if (ViewData["InstrumentationId"] != null && (int)ViewData["InstrumentationId"] == item.InstrumentationId)

@@ -104,7 +104,7 @@
             <td>@Model.Types.Single(u => u.Id == item.TypeId).Id. @Model.Types.Single(u => u.Id == item.TypeId).Name</td>
             <td>@item.Model</td>
             <td>@item.FactoryNumber</td>
-            <td>@Model.Locations.Single(u => u.Id == item.LocationId).Name</td>
+            <td>@Model.Locations.FirstOrDefault(u => u.Id == item.LocationId)?.Name</td>
             <td>@item.MeasurementLimits</td>
             <td>@Model.Verifications.FirstOrDefault(u => u.InstrumentationId == item.Id)?.Date</td>
             <td>@item.Frequency</td>

@@ -9,7 +9,6 @@ namespace InstrumentationAccountingSystem.Common.Dto
     public class UserLogInDto
     {
         public string Login { get; set; }
-
         public string Password { get; set; }
     }
 }

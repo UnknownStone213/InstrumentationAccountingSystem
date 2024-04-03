@@ -11,11 +11,9 @@ namespace InstrumentationAccountingSystem.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
         [StringLength(30, MinimumLength = 3)]
         public string Login { get; set; }
-
         [Required]
         [DataType(DataType.Password)]
         [StringLength(50, MinimumLength = 3)]

@@ -42,6 +42,7 @@
     <p>
         <label asp-for="LocationId">Место установки</label><br />
         <select name="LocationId" id="LocationId">
+            <option value=""></option>
             @foreach (var item in locations)
             {
                 <option value="@item.Id">@item.Id. @item.Name</option>

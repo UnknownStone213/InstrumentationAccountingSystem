@@ -46,5 +46,5 @@
     </p>
 </form>
 <form asp-controller="Home" asp-action="DeleteVerificationById" method="post" asp-route-id="@Model.Id">
-    <input type="submit" value="Удалить поверку" style="color:red"/>
+    <input type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту поверку?');" value="Удалить поверку" style="color:red" />
 </form>
