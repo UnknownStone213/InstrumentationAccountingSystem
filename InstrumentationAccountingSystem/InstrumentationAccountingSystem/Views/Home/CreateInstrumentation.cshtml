@@ -17,10 +17,10 @@
     }
 }
 
-<h5>Добавить прибор</h5>
+<h5>Добавить СИ</h5>
 <form asp-action="CreateInstrumentation" asp-controller="home" style="display:flex; flex-wrap:wrap; justify-content:space-between;">
     <p>
-        <label asp-for="TypeId">Тип</label><br />
+        <label asp-for="TypeId">Тип СИ</label><br />
         <select name="TypeId" id="TypeId">
             @foreach (var item in types)
             {

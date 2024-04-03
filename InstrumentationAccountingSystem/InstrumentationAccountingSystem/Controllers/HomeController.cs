@@ -32,7 +32,7 @@ namespace InstrumentationAccountingSystem.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? sortName)
+        public ActionResult Index(int? typeId, string? model, string? factoryNumber, string? locationName, string? sortName, string? checkMonth)
         {
             if (sortName != null)
             {
@@ -52,6 +52,7 @@ namespace InstrumentationAccountingSystem.Controllers
             ViewData["Model"] = model;
             ViewData["FactoryNumber"] = factoryNumber;
             ViewData["LocationName"] = locationName;
+            ViewData["checkMonth"] = checkMonth;
 
             User? user = null;
             List<Instrumentation> instrumentations = new List<Instrumentation> { };
@@ -64,7 +65,7 @@ namespace InstrumentationAccountingSystem.Controllers
             verifications = _verificationService.GetAll();
             foreach (var item in _instrumentationService.GetAll())
             {
-                if ((typeId == null || item.TypeId == typeId) && ((model == null) || (item.Model != null && item.Model.Equals(model, StringComparison.OrdinalIgnoreCase))) && ((factoryNumber == null) || (item.FactoryNumber != null && item.FactoryNumber.Equals(factoryNumber, StringComparison.OrdinalIgnoreCase))) && ((locationName == null) || (locations.FirstOrDefault(u => u.Id == item.LocationId).Name.Contains(locationName,StringComparison.OrdinalIgnoreCase))))
+                if ((typeId == null || item.TypeId == typeId) && ((model == null) || (item.Model != null && item.Model.Equals(model, StringComparison.OrdinalIgnoreCase))) && ((factoryNumber == null) || (item.FactoryNumber != null && item.FactoryNumber.Equals(factoryNumber, StringComparison.OrdinalIgnoreCase))) && ((locationName == null) || (locations.FirstOrDefault(u => u.Id == item.LocationId).Name.Contains(locationName, StringComparison.OrdinalIgnoreCase))) && ((checkMonth == null) || (checkMonth == "checkMonthTrue") && ((_verificationService.GetLastVerificationByInstrumentationId(item.Id)?.Date.ToDateTime(TimeOnly.MinValue).AddMonths(item.Frequency) ?? DateTime.MinValue) < DateTime.Now.AddDays(30))))
                 {
                     instrumentations.Add(item);
                 }
@@ -137,14 +138,14 @@ namespace InstrumentationAccountingSystem.Controllers
                 case "Дата последней поверки":
                     if (HttpContext.Session.GetString("sortCheck") == "1")
                     {
-                        Dictionary<int, DateTime> lllastVerifications = new Dictionary<int, DateTime>();
+                        Dictionary<int, DateTime> lastVerifications = new Dictionary<int, DateTime>();
                         foreach (var item2 in instrumentations)
                         {
-                            lllastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
+                            lastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
                         }
-                        lllastVerifications = lllastVerifications.OrderBy(u => u.Value).ToDictionary();
+                        lastVerifications = lastVerifications.OrderBy(u => u.Value).ToDictionary();
                         List<int> sortIds = new List<int>();
-                        foreach (var item2 in lllastVerifications)
+                        foreach (var item2 in lastVerifications)
                         {
                             sortIds.Add(item2.Key);
                         }
@@ -157,14 +158,14 @@ namespace InstrumentationAccountingSystem.Controllers
                     }
                     else
                     {
-                        Dictionary<int, DateTime> lllastVerifications = new Dictionary<int, DateTime>();
+                        Dictionary<int, DateTime> lastVerifications = new Dictionary<int, DateTime>();
                         foreach (var item2 in instrumentations)
                         {
-                            lllastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
+                            lastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
                         }
-                        lllastVerifications = lllastVerifications.OrderByDescending(u => u.Value).ToDictionary();
+                        lastVerifications = lastVerifications.OrderByDescending(u => u.Value).ToDictionary();
                         List<int> sortIds = new List<int>();
-                        foreach (var item2 in lllastVerifications)
+                        foreach (var item2 in lastVerifications)
                         {
                             sortIds.Add(item2.Key);
                         }
@@ -174,7 +175,6 @@ namespace InstrumentationAccountingSystem.Controllers
                             instrumentations2.Add(instrumentations.First(o => item2 == o.Id));
                         }
                         instrumentations = instrumentations2;
-
                     }
                     break;
                 case "Периодичность измерений":
@@ -188,7 +188,46 @@ namespace InstrumentationAccountingSystem.Controllers
                     }
                     break;
                 case "Дата очередной поверки":
-                    // 1111111111111111111111
+                    if (HttpContext.Session.GetString("sortCheck") == "1")
+                    {
+                        Dictionary<int, DateTime> nextVerifications = new Dictionary<int, DateTime>();
+                        foreach (var item2 in instrumentations)
+                        {
+                            nextVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue).AddMonths(item2.Frequency) ?? DateTime.MinValue);
+                        }
+                        nextVerifications = nextVerifications.OrderBy(u => u.Value).ToDictionary();
+                        List<int> sortIds = new List<int>();
+                        foreach (var item2 in nextVerifications)
+                        {
+                            sortIds.Add(item2.Key);
+                        }
+                        List<Instrumentation> instrumentations2 = new List<Instrumentation>();
+                        foreach (var item2 in sortIds)
+                        {
+                            instrumentations2.Add(instrumentations.First(o => item2 == o.Id));
+                        }
+                        instrumentations = instrumentations2;
+                    }
+                    else
+                    {
+                        Dictionary<int, DateTime> lastVerifications = new Dictionary<int, DateTime>();
+                        foreach (var item2 in instrumentations)
+                        {
+                            lastVerifications.Add(item2.Id, _verificationService.GetLastVerificationByInstrumentationId(item2.Id)?.Date.ToDateTime(TimeOnly.MinValue) ?? DateTime.MinValue);
+                        }
+                        lastVerifications = lastVerifications.OrderByDescending(u => u.Value).ToDictionary();
+                        List<int> sortIds = new List<int>();
+                        foreach (var item2 in lastVerifications)
+                        {
+                            sortIds.Add(item2.Key);
+                        }
+                        List<Instrumentation> instrumentations2 = new List<Instrumentation>();
+                        foreach (var item2 in sortIds)
+                        {
+                            instrumentations2.Add(instrumentations.First(o => item2 == o.Id));
+                        }
+                        instrumentations = instrumentations2;
+                    }
                     break;
                 case "Присоединение к процессу":
                     if (HttpContext.Session.GetString("sortCheck") == "1")
@@ -214,11 +253,6 @@ namespace InstrumentationAccountingSystem.Controllers
                     break;
             }
 
-            //int? UserId = Convert.ToInt32(User.FindFirst("UserId")?.Value); // Auth
-            // if UserId != null
-            //Auth!!!!
-            // filter!
-
             HomeModel homeModel = new HomeModel
             {
                 User = user,
@@ -227,10 +261,10 @@ namespace InstrumentationAccountingSystem.Controllers
                 Locations = locations,
                 Verifications = verifications
             };
-            Response.Cookies.Append("", "");
             return View(homeModel);
         }
 
+        [AllowAnonymous]
         public ActionResult CreateInstrumentation()
         {
             return View();
@@ -248,10 +282,10 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(instrumentationCreateDto);
         }
 
+        [AllowAnonymous]
         public ActionResult EditInstrumentation(int id)
         {
             Instrumentation? instrumentation = _instrumentationService.GetInstrumentationById(id);
-
             return View(instrumentation);
         }
         [HttpPost]
@@ -269,6 +303,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         public ActionResult CreateVerification(int? instrumentationId)
         {
             ViewData["InstrumentationId"] = instrumentationId;
@@ -287,6 +322,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(verificationCreateDto);
         }
 
+        [AllowAnonymous]
         public ActionResult EditVerification(int id)
         {
             Verification? verification = _verificationService.GetVerificationById(id);
@@ -308,6 +344,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return RedirectToAction("CreateVerification");
         }
 
+        [AllowAnonymous]
         public ActionResult CreateType()
         {
             return View();
@@ -325,6 +362,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(typeCreateDto);
         }
 
+        [AllowAnonymous]
         public ActionResult EditType(int id)
         {
             InstrumentationAccountingSystem.Models.Type? type = _typeService.GetTypeById(id);
@@ -346,7 +384,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return RedirectToAction("CreateType");
         }
 
-
+        [AllowAnonymous]
         public ActionResult CreateLocation()
         {
             return View();
@@ -363,6 +401,7 @@ namespace InstrumentationAccountingSystem.Controllers
             return View(locationCreateDto);
         }
 
+        [AllowAnonymous]
         public ActionResult EditLocation(int id)
         {
             Location? location = _locationService.GetLocationById(id);

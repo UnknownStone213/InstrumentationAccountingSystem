@@ -53,14 +53,15 @@
 }
 
 <div>
-    <a asp-action="CreateInstrumentation"><button>Добавить прибор</button></a>
-    <a asp-action="CreateType"><button>Добавить тип приборов</button></a>
+    <a asp-action="CreateInstrumentation"><button>Добавить СИ</button></a>
+    <a asp-action="CreateType"><button>Добавить тип СИ</button></a>
     <a asp-action="CreateLocation"><button>Добавить место установки</button></a>
-    <a asp-action="CreateVerification"><button>Добавить поверку прибора</button></a>
+    <a asp-action="CreateVerification"><button>Добавить поверку СИ</button></a>
 </div>
 <form method="get" class="container-fluid">
-    <label>Тип:</label>
+    <label>Тип СИ:</label>
     <select name="TypeId" id="TypeId">
+        <option value=""></option>
         @foreach (var item in Model.Types)
         {
             <option value="@item.Id">@item.Id. @item.Name</option>
@@ -72,18 +73,16 @@
     <input type="text" name="FactoryNumber" maxlength="50" size="10" value="@ViewData["FactoryNumber"]" />
     <label>Место установки:</label>
     <input type="text" name="LocationName" maxlength="50" size="30" value="@ViewData["LocationName"]" />
+    <label>30 дней:</label>
+    <input type="checkbox" name="checkMonth" value="checkMonthTrue" checked="@ViewData["checkMonth"]" />
+    <br />
     <input type="submit" value="Фильтрация" style="display:inline;" />
 </form>
 <form method="get" class="container-fluid">
     <input type="submit" value="Отменить фильтрацию" />
 </form>
-<form method="get" class="container-fluid" >
-    <label>Сортировать:</label>
-    <input type="text" name="sortName" maxlength="50" size="20" />
-    <input type="submit" value="Сортировать" />
-</form>
 
-<h4 style="clear:left; padding-top:20px;">Приборы(@Model.Instrumentations.Count):</h4>
+<h4 style="clear:left; padding-top:20px;">Средства измерений(@Model.Instrumentations.Count):</h4>
 <table class="table table-hover table-sm" >
     <tr>
         <th onclick="location.href = '@Url.Action("Index", "Home", new { sortName = "Id" })';">Id</th>

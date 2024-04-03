@@ -12,7 +12,7 @@
     }
 }
 
-<h5>Изменить поверку прибора</h5>
+<h5>Изменить поверку СИ</h5>
 <form asp-action="EditVerification" asp-controller="home" asp-route-id="@Model">
     <p hidden>
         <label asp-for="Id">Id</label><br />
@@ -25,7 +25,7 @@
         <span asp-validation-for="Date"></span>
     </p>
     <p>
-        <label asp-for="InstrumentationId">прибор</label><br />
+        <label asp-for="InstrumentationId">СИ</label><br />
         <select name="InstrumentationId" id="InstrumentationId">
             @foreach (var item in instrumentations)
             {
